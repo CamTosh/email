@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<div>
+		<input id="email" type="text" data-campaign="5df93cddacb6f88ae91c9e49" value="toto@gmail.com">
+		<button id="send">Send</button>
+	</div>
+	<script type="text/javascript">
+		document.getElementById('send').addEventListener('click', () => {
+			const $email = document.getElementById('email');
+			const campaign = $email.dataset.campaign;
+			const email = $email.value;
+			console.log({
+					email,
+					campaign,
+				})
+			fetch('http://localhost:6969/email', {
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email,
+					campaign,
+				})
+			})
+			.then(response => response.json())
+			.then((data) => {
+				console.log(data)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+		})
+	</script>
+</body>
+</html>
