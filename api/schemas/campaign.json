@@ -1,0 +1,22 @@
+{
+  "create": {
+    "type": "object",
+    "properties": {
+      "name": {"type": "string"},
+      "site": {"type": "string"}
+    },
+    "required": [
+      "name",
+      "site"
+    ]
+  },
+  "delete": {
+    "type": "object",
+    "properties": {
+      "id": {"type": "string"}
+    },
+    "required": [
+      "id"
+    ]
+  }
+}

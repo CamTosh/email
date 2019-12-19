@@ -1,0 +1,23 @@
+{
+  "create": {
+    "type": "object",
+    "properties": {
+      "mail": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 100
+      },
+      "instagram_account": { "type": "string"},
+      "instagram_password": { "type": "string"}
+    },
+    "required": [
+      "mail",
+      "password",
+      "instagram_account",
+      "instagram_password"
+    ]
+  }
+}

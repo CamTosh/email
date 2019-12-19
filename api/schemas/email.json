@@ -1,0 +1,13 @@
+{
+  "create": {
+    "type": "object",
+    "properties": {
+      "email": {"type": "string"},
+      "campaign": {"type": "string"}
+    },
+    "required": [
+      "email",
+      "campaign"
+    ]
+  }
+}
