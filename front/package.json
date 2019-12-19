@@ -15,6 +15,8 @@
     "vue-json-csv": "^1.2.9",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.0.3",
+    "vue-stripe-checkout": "^3.1.5",
+    "vue-stripe-elements-plus": "^0.3.2",
     "vue-trend-chart": "^0.15.1",
     "vuex": "^3.0.1"
   },

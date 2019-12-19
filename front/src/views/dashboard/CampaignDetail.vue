@@ -1,6 +1,23 @@
 <template>
   <div id="dashboard" class="inline-flex w-full flex-col items-center">
     <Header :selected='"Dashboard"' />
+    
+    <div v-if="needUpgrade" class="w-3/4 flex items-center mt-4 justify-center">
+      <div class="w-auto bg-white pt-4 rounded shadow-xl">
+        <div class="w-auto border-b border-gray-200">
+          <div class="w-auto inline-flex px-3 mb-2">
+            <div class="text-gray-700 pb-1 ml-4">
+              You are using a <b>{{ user.plan.id }} version</b>.<br>
+              The <b>{{ user.plan.id }} version</b> is limited to <b>{{ user.plan.emailsPerCampaign }} emails</b> and you are reach the limit
+              <span class="text-white bg-red-400 px-1 py-1 rounded">{{ campaign.total }}/{{ user.plan.emailsPerCampaign }}</span>
+              <br><br>
+              Go to your <router-link class='underline text-gray-800' to='/account'>account</router-link> to upgrade your subscription 😎
+            </div>
+         </div>
+       </div>
+     </div>
+    </div>
+
     <!-- Detail -->
     <div v-if='campaign.id' class="w-3/4 inline-flex flex-col cursor-pointer items-center mt-8 justify-center" @click='openEmbed = !openEmbed'>
       <div class="rounded bg-white w-full p-4 fill-current text-green-700 inline-flex shadow">
@@ -94,10 +111,12 @@ export default {
     	api: null,
     	token: null,
       campaign: {},
-      openEmbed: false
+      openEmbed: false,
+      needUpgrade: false,
     }
   },
   mounted() {
+    this.user = this.$store.getters.user
   	this.api = this.$store.getters.api
   	this.token = this.$store.getters.token
   	this.getCampaign()
@@ -114,6 +133,9 @@ export default {
         throw new Error(data.error);
       }
       this.campaign = data
+      if (this.campaign.total > this.campaign.emails.length) {
+        this.needUpgrade = true;
+      }
     },
     deleteCampaign: async function() {
       axios.defaults.headers.common["Authorization"] = this.token;

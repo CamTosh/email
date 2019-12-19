@@ -15,7 +15,6 @@ class UserRepository(MongoRepository):
     def addUser(self, user):
         user["created_at"] = datetime.now()
         user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
-        user['instagram_password'] = b64encode(user['instagram_password'])
         return self.add(user)
 
     def isUserExist(self, mail):
@@ -31,7 +30,6 @@ class UserRepository(MongoRepository):
     def getUser(self, id):
         user = self.get(id)
         user.pop('password')
-        user['instagram_password'] = b64decode(user['instagram_password'])
 
         user['id'] = str(user['_id'])
         user.pop('_id')

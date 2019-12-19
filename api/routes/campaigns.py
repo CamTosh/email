@@ -20,11 +20,16 @@ def campaign_list():
     campaigns = campaignRepository.getCampaigns(user['id'])
     return jsonify({'campaigns': campaigns})
 
+
 @routes.route('/campaign/<id>', methods=['GET'])
 @jwt_required
 def campaign_info(id):
     user = userRepository.getUser(get_jwt_identity())
     campaign = campaignRepository.getCampaign(user['id'], id)
+
+    campaign['total'] = len(campaign['emails'])
+    campaign['emails'] = campaign['emails'][0:user['plan']['emailsPerCampaign']]
+
     return jsonify(campaign)
 
 

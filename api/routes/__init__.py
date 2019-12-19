@@ -9,3 +9,4 @@ def onValidationError(e):
 
 from .users import *
 from .campaigns import *
+from .payements import *

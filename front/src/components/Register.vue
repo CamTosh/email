@@ -1,51 +1,54 @@
 <template>
 <div class="container mx-auto">
-    <div class="flex justify-center px-6 my-12">
+    <div class="flex justify-center">
         <!-- Row -->
         <div class="w-full flex justify-center ">
             <!-- Col -->
-            <div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
-                <h3 class="pt-4 text-2xl text-center">Inscription</h3>
-                <form class="w-full px-8 pt-6 pb-8  bg-white rounded inline-flex flex-row">
+            <div class="w-full lg:w-1/2 p-5 rounded-lg lg:rounded-l-none">
+                <h3 class="pt-4 text-2xl text-center">Register</h3>
+                <form class="w-full px-8 pt-6 pb-8  rounded inline-flex flex-row">
                     <div class="w-1/2 pr-4">
                         <div class="mb-4">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="mail">
                                 Email
                             </label>
-                            <input v-model="mail" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="mail" type="text" placeholder="email" />
+                            <input required v-model="mail" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="mail" type="email" placeholder="email" />
                         </div>
                         <div class="mb-4">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="password">
-                                Mot de passe
+                                Password
                             </label>
-                            <input v-model="password" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
+                            <input required v-model="password" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
                         </div>
                     </div>
 
                     <div class="w-1/2 pl-4 border-l">
                         <div class="mb-4">
-                            <label class="block mb-2 text-sm font-bold text-gray-700" for="ig_username">
-                                Pseudo Instagram
+                            <label class="block mb-2 text-sm font-bold text-gray-700">
+                                First Name
                             </label>
-                            <input v-model="ig_username" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="ig_username" type="text" placeholder="@..." />
+                            <input required v-model="firstName" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" type="text" />
                         </div>
                         <div class="mb-4">
-                            <label class="block mb-2 text-sm font-bold text-gray-700" for="password">
-                                Mot de passe Instagram
+                            <label class="block mb-2 text-sm font-bold text-gray-700">
+                                Last Name
                             </label>
-                            <input v-model="ig_password" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
+                            <input required v-model="lastName" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
                         </div>
                     </div>
                 </form>
-                <div class="mb-4 text-center">
-                    <button @click='register()' class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="button">
-                        Créer un compte
-                    </button>
+                <div class="mb-4 text-center w-full inline-flex flex-col items-center">
+                    <div v-if='mail && password && lastName && firstName' class="hover:bg-gray-800 bg-gray-700 text-white w-3/4 text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" @click='register()'>
+                      Create account
+                    </div>
+                    <div v-else class="hover:bg-gray-800 bg-gray-700 text-white w-3/4 text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-not-allowed outline-none">
+                      Create account
+                    </div>
                 </div>
-                <hr class="mb-6 border-t" />
+                <hr class="mb-4 border-t" />
                 <div class="text-center">
-                    <a class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800" href="/login">
-                        Se connecter !
+                    <a class="inline-block text-sm text-gray-500 align-baseline cursor-pointer hover:text-gray-800" href="/login">
+                        Login!
                     </a>
                 </div>
             </div>
@@ -61,19 +64,22 @@ export default {
       return {
         mail: "",
         password: "",
-        ig_username: "",
-        ig_password: ""
+        firstName: "",
+        lastName: ""
       }
     },
     methods: {
       register: function () {
-        const mail = this.mail
-        const password = this.password
-        const igpassword = this.ig_password
-        const igusername = this.ig_username
-        this.$store.dispatch('register', { mail, password, instagram_account: igusername, instagram_password: igpassword })
-        .then(() => this.$router.push('/dashboard'))
-        .catch(err => console.log(err))
+        if (this.mail && this.password && this.lastName && this.firstName) {
+            this.$store.dispatch('register', {
+                mail: this.mail,
+                password: this.password,
+                lastName: this.lastName,
+                firstName: this.firstName
+            })
+            .then(() => this.$router.push('/dashboard/campaign/new'))
+            .catch(err => console.log(err))
+        }
       }
     }
 }

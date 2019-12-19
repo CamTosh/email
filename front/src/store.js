@@ -10,13 +10,14 @@ export default new Vuex.Store({
     api: API,
     loginPending: false, 
     status: "",
-    token: localStorage.getItem("token") || ""
+    token: localStorage.getItem("token") || "",
+    user: JSON.parse(localStorage.getItem("user")) || null,
   },
   mutations: {
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, token, user) {
+    auth_success(state, {token, user}) {
       state.status = "success";
       state.token = token;
       state.user = user;
@@ -32,6 +33,7 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.status = "";
+      state.user = null;
       state.token = "";
     }
   },
@@ -48,7 +50,8 @@ export default new Vuex.Store({
           .then((resp) => {
             const token = `Bearer ${resp.data.bearer}`;
             localStorage.setItem("token", token);
-            commit("auth_success", token);
+            localStorage.setItem("user", JSON.stringify(resp.data.user));
+            commit("auth_success", {token, user: resp.data.user});
             commit("pending_login");
             resolve(resp);
           })
@@ -65,10 +68,14 @@ export default new Vuex.Store({
         commit("auth_request");
         axios({ url: API + "/user", data: user, method: "POST" })
           .then((resp) => {
-            const token = resp.data.bearer;
+            const token = `Bearer ${resp.data.bearer}`;
 
             axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token);
+            
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(resp.data.user));
+
+            commit("auth_success", {token, user: resp.data.user});
             resolve(resp);
           })
           .catch((err) => {
@@ -82,6 +89,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit("logout");
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         delete axios.defaults.headers.common["Authorization"];
         resolve();
       });
@@ -108,6 +116,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    user: state => state.user,
     api: state => state.api,
     token: state => state.token,
     isLoggedIn: state => !!state.token,

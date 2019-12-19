@@ -2,6 +2,20 @@
   <div id="dashboard" class="inline-flex w-full flex-col items-center">
     <Header :selected='"Dashboard"' />
     
+    <div v-if="user.plan.id == 'free'" class="w-3/4 flex items-center mt-4 justify-center">
+      <div class="w-auto bg-white pt-4 rounded shadow-xl">
+        <div class="w-auto border-b border-gray-200">
+          <div class="w-auto inline-flex px-3 mb-2">
+            <div class="text-gray-700 pb-1 ml-4">
+              You are using a <b>{{ user.plan.id }} version</b>.<br>
+              The <b>{{ user.plan.id }} version</b> is limited to <b>{{ user.plan.campaigns }} campaigns</b> and  <b>{{ user.plan.emailsPerCampaign }} emails</b><br><br>
+              Go to your <router-link class='underline text-gray-800' to='/account'>account</router-link> to activate your subscription 😎
+            </div>
+         </div>
+       </div>
+     </div>
+    </div>
+    
     <div v-if='loginPending == false' class="w-3/4 flex items-center mt-8 justify-center">
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
@@ -39,10 +53,11 @@ import axios from "axios";
 
 export default {
   components: {
-    Header
+    Header,
   },
   data() {
     return {
+      user: null,
       api: null,
       token: null,
       campaigns: [],
@@ -50,6 +65,7 @@ export default {
     }
   },
   mounted() {
+    this.user = this.$store.getters.user
     this.api = this.$store.getters.api
     this.token = this.$store.getters.token
     this.loginPending = this.$store.getters.loginPending

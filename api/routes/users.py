@@ -21,21 +21,33 @@ def user_info():
 @routes.route('/user', methods=['POST'])
 @jsonschema.validate('user', 'create')
 def user_create():
+	print(str(request.json))
 	mail = str(request.json['mail'])
 
 	user = userRepository.isUserExist(mail)
 	if user != False:
 		return jsonify({"error": "User already exist"})
-	
-	res = userRepository.addUser({
+
+	newUser = {
 		"mail": mail,
 		"password": str(request.json['password']).encode('utf8'),
-		"instagram_account": request.json['instagram_account'],
-		"instagram_password": str(request.json['password']).encode('utf8'),
-		"role": "user",
-	})
+		"firstName": request.json['firstName'],
+		"lastName": request.json['lastName'],
+		'created_at': datetime.datetime.now(),
+		"plan": {
+			'id': 'free',
+			'campaigns': 1,
+			'emailsPerCampaign': 50
+		}
+	}
+
+	res = userRepository.addUser(newUser)
+	user = userRepository.getUser(str(res.inserted_id))
+	
 	expires = datetime.timedelta(days=365)
-	return jsonify({"bearer": create_access_token(str(res.inserted_id), expires_delta=expires)})
+	bearer = create_access_token(str(res.inserted_id), expires_delta=expires)
+
+	return jsonify({"bearer": bearer, "user": user})
 
 
 @routes.route('/user', methods=['PUT'])
@@ -72,4 +84,7 @@ def login():
 		return jsonify({"error": "User not exist"})
 
 	expires = datetime.timedelta(days=365)
-	return jsonify({"bearer": create_access_token(str(user['_id']), expires_delta=expires)})
+	bearer= create_access_token(str(user['_id']), expires_delta=expires)
+	user = userRepository.getUser(str(user['_id']))
+
+	return jsonify({"bearer": bearer, "user": user})
