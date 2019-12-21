@@ -11,7 +11,7 @@ export default new Vuex.Store({
     loginPending: false, 
     status: "",
     token: localStorage.getItem("token") || "",
-    user: JSON.parse(localStorage.getItem("user")) || null,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem("user")) : null,
   },
   mutations: {
     auth_request(state) {
@@ -35,9 +35,43 @@ export default new Vuex.Store({
       state.status = "";
       state.user = null;
       state.token = "";
+    },
+    update_campaigns(state, campaigns) {
+      state.user.campaigns = campaigns;
     }
   },
   actions: {
+    add_campaigns({ commit }, campaigns) {
+      commit("update_campaigns", campaigns);
+    },
+    getUser({ commit }) {
+      axios.defaults.headers.common["Authorization"] = this.state.token;
+      return new Promise((resolve, reject) => {
+        commit("auth_request");
+        axios({
+          url: API + "/user",
+          method: "GET"
+        })
+          .then((resp) => {
+            localStorage.setItem("user", JSON.stringify(resp.data));
+            let user = {...this.state.user}
+
+            user.plan = resp.data.plan ? resp.data.plan : user.plan
+            user.invoice = resp.data.invoice ? resp.data.invoice : user.invoice
+            user.campaigns = resp.data.campaigns ? resp.data.campaigns : user.campaigns
+            
+            commit("auth_success", {
+              token: this.state.token,
+              user
+            });
+            resolve(resp);
+          })
+          .catch((err) => {
+            commit("logout");
+            reject(err);
+          });
+      });
+    },
     login({ commit }, user) {
       commit("pending_login");
       return new Promise((resolve, reject) => {

@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard" class="inline-flex w-full flex-col items-center">
-    <Header :selected='"Dashboard"' />
+    <Header />
     
     <Info v-if='campaignId' message='Campaign are created' />
     <Error v-if='error' :message='error' />
@@ -97,7 +97,7 @@
         name: null,
         campaignId: null,
         error: null,
-        user: null,
+        user: {plan: {id: ''}},
       }
     },
     mounted() {

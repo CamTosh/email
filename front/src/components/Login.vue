@@ -28,9 +28,9 @@
                     </div>
                     <hr class="mb-4 border-t" />
                     <div class="text-center">
-                        <a class="inline-block text-sm text-gray-500 align-baseline hover:text-gray-800" href="/register">
+                        <router-link to='/register' class="inline-block text-sm text-gray-500 align-baseline hover:text-gray-800" href="/register">
                             Register
-                        </a>
+                        </router-link>
                     </div>
                 </form>
             </div>
@@ -53,7 +53,7 @@ export default {
         const mail = this.mail
         const password = this.password
         this.$store.dispatch('login', { mail, password })
-        .then(() => this.$router.push('/dashboard'))
+        .then(() => this.$router.push('dashboard'))
         .catch(err => console.log(err))
       }
     }

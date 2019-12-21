@@ -1,7 +1,7 @@
 <template>
   <div id="dashboard" class="inline-flex w-full flex-col items-center">
-    <Header :selected='"Dashboard"' />
-    
+    <Header selected='Dashboard' />
+
     <div v-if="user.plan.id == 'free'" class="w-3/4 flex items-center mt-4 justify-center">
       <div class="w-auto bg-white pt-4 rounded shadow-xl">
         <div class="w-auto border-b border-gray-200">
@@ -16,7 +16,7 @@
      </div>
     </div>
     
-    <div v-if='loginPending == false' class="w-3/4 flex items-center mt-8 justify-center">
+    <div v-if='$store.getters.loginPending == false' class="w-3/4 flex items-center mt-8 justify-center">
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
           <div class="w-full inline-flex justify-between px-3 font-bold text-gray-600">
@@ -57,18 +57,16 @@ export default {
   },
   data() {
     return {
-      user: null,
+      user: {plan: {id: ''}},
       api: null,
       token: null,
       campaigns: [],
-      loginPending: null,
     }
   },
   mounted() {
     this.user = this.$store.getters.user
     this.api = this.$store.getters.api
     this.token = this.$store.getters.token
-    this.loginPending = this.$store.getters.loginPending
     this.getCampaigns()
   },
   methods: {
@@ -79,10 +77,12 @@ export default {
         method: "GET"
       });
       const data = response.data.campaigns
+
       if (data.error) {
         throw new Error(data.error);
       }
       this.campaigns = data
+      this.$store.dispatch('add_campaigns', this.campaigns)
     },
   }
 }

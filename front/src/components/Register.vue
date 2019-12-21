@@ -47,9 +47,9 @@
                 </div>
                 <hr class="mb-4 border-t" />
                 <div class="text-center">
-                    <a class="inline-block text-sm text-gray-500 align-baseline cursor-pointer hover:text-gray-800" href="/login">
+                    <router-link to='/login' class="inline-block text-sm text-gray-500 align-baseline cursor-pointer hover:text-gray-800" href="/login">
                         Login!
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard" class="inline-flex w-full flex-col items-center">
-    <Header :selected='"Dashboard"' />
+    <Header />
     
     <div v-if="needUpgrade" class="w-3/4 flex items-center mt-4 justify-center">
       <div class="w-auto bg-white pt-4 rounded shadow-xl">
@@ -18,16 +18,40 @@
      </div>
     </div>
 
-    <!-- Detail -->
-    <div v-if='campaign.id' class="w-3/4 inline-flex flex-col cursor-pointer items-center mt-8 justify-center" @click='openEmbed = !openEmbed'>
-      <div class="rounded bg-white w-full p-4 fill-current text-green-700 inline-flex shadow">
-        <svg class="w-6 h-6 align-middle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <div class="text-gray-900 ml-4">Code to embed on your website</div>
-      </div>
-      <div class="w-full" v-if='openEmbed'>
-        <Embed :campaignId='campaign.id' />
+    <!-- Info -->
+    <div class="w-3/4 flex items-center mt-8 justify-center">
+      <div class="w-full bg-white pt-4 rounded shadow">
+        <div class="w-full border-b border-gray-200">
+          <div class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-600">
+            <div class=" text-gray-700">Info</div>
+          </div>
+        </div>
+
+        <div class="w-full py-3 inline-flex justify-around flex-col md:flex-row lg:flex-row px-8">
+          
+          <div class="md:w-3/5 lg:w-3/5 border border-gray-200 m-1 rounded h-24 bg-gray-100 mt-2 py-2 px-3">
+            <div class="text-gray-800">
+              Campaign Id: {{ campaign.id }}
+            </div>
+            <div class="text-gray-800">
+              Emails: {{ campaign.total }}              
+            </div>
+          </div>
+          <div class="md:w-3/5 lg:w-3/5 border border-gray-200 m-1 rounded h-24 bg-gray-100 mt-2 py-2 px-3">
+            <div class="text-gray-800">
+              Emails: {{ campaign.total }}
+            </div>
+            <div class="text-gray-800">
+              Users: {{ campaign.total }}
+            </div>
+          </div>
+          
+        </div>
       </div>
     </div>
+  
+
+    <!-- Chart -->
     <div v-if='campaign' class="w-3/4 flex items-center mt-8 justify-center">
       <div class="w-full bg-white pt-4 rounded shadow">
        <div class="w-full border-b border-gray-200">
@@ -91,6 +115,19 @@
         </div>
       </div>
     </div>
+
+
+    <!-- Embed -->
+    <div v-if='campaign.id' class="w-3/4 inline-flex flex-col cursor-pointer items-center justify-center" @click='openEmbed = !openEmbed'>
+      <div class="rounded bg-white w-full p-4 fill-current text-green-700 inline-flex shadow mb-4">
+        <svg class="w-6 h-6 align-middle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <div class="text-gray-900 ml-4">Code to embed on your website</div>
+      </div>
+      <div class="w-full" v-if='openEmbed'>
+        <Embed :campaignId='campaign.id' />
+      </div>
+    </div>
+
   </div>
 </template>
 

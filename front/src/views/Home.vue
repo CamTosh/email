@@ -8,8 +8,9 @@
     mounted() {
       if(this.$store.getters.isLoggedIn) {
         this.$router.push('/dashboard')
+      } else {
+        this.$router.push('/login')
       }
-      this.$router.push('/login')
     },
   }
 </script>

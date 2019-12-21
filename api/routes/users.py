@@ -15,13 +15,13 @@ userRepository = UserRepository()
 @routes.route('/user', methods=['GET'])
 @jwt_required
 def user_info():
-	return userRepository.getUser(get_jwt_identity())
+	user = userRepository.getUser(get_jwt_identity())
+	return jsonify(user)
 
 
 @routes.route('/user', methods=['POST'])
 @jsonschema.validate('user', 'create')
 def user_create():
-	print(str(request.json))
 	mail = str(request.json['mail'])
 
 	user = userRepository.isUserExist(mail)
@@ -34,6 +34,8 @@ def user_create():
 		"firstName": request.json['firstName'],
 		"lastName": request.json['lastName'],
 		'created_at': datetime.datetime.now(),
+		'customer_id': '',
+		'invoice': [],
 		"plan": {
 			'id': 'free',
 			'campaigns': 1,
