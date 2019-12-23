@@ -112,7 +112,7 @@
           </div>
         </div>
         <div class="w-full py-4 inline-flex items-center md:justify-around lg:justify-around flex-col px-6">
-          <div class="w-full bg-gray-100 rouded h-24 mt-2" v-for='invoice in invoices'>
+          <div class="w-full bg-gray-100 rouded h-24 mt-2" v-for='invoice in invoices.reverse()'>
             {{ invoice }}
           </div>
         </div>      

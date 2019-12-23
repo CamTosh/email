@@ -25,6 +25,8 @@ def campaign_list():
 @jwt_required
 def campaign_info(id):
     user = userRepository.getUser(get_jwt_identity())
+    if user == False:
+        return jsonify({"error": "user doesn't exist"})
     campaign = campaignRepository.getCampaign(user['id'], id)
 
     campaign['total'] = len(campaign['emails'])
@@ -38,14 +40,17 @@ def campaign_info(id):
 @jwt_required
 def campaign_create():
     creator = userRepository.getUser(get_jwt_identity())
-    # creator = userRepository.getUser('5de648f918434440ee7bc420')
     if creator == False:
         return jsonify({"error": "user doesn't exist"})
     
     campaign = campaignRepository.isExist(request.json['site'])
     if campaign != False:
         return jsonify({"error": "campaign already exist"})
-    
+
+    campaignsOfUser = len(campaignRepository.getCampaigns(creator['id'])) +1
+    if creator['plan']['campaigns'] < campaignsOfUser:
+        return jsonify({'error': 'You have reached limit'})
+
     res = campaignRepository.add({
         "creator": creator['id'],
         "name": request.json['name'],

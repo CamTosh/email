@@ -4,7 +4,7 @@
     
     <Info v-if='campaignId' message='Campaign are created' />
     <Error v-if='error' :message='error' />
-    
+
     <div v-if="user.plan.id == 'free'" class="w-3/4 flex items-center mt-4 justify-center">
       <div class="w-auto bg-white pt-4 rounded shadow-xl">
         <div class="w-auto border-b border-gray-200">
@@ -16,7 +16,23 @@
             </div>
          </div>
        </div>
-     </div>
+      </div>
+    </div>
+
+    <div v-if="user.plan.campaigns == user.campaigns.length" class="w-3/4 flex items-center mt-4 justify-center">
+      <div class="w-auto bg-white pt-4 rounded shadow-xl">
+        <div class="w-auto border-b border-gray-200">
+          <div class="w-auto inline-flex px-3 mb-2">
+            <div class="text-gray-700 pb-1 ml-4">
+              You are using a <b>{{ user.plan.id }} version</b>.<br>
+              The <b>{{ user.plan.id }} version</b> is limited to <b>{{ user.plan.campaigns }} campaigns</b> and you are reach the limit
+              <span class="text-white bg-red-400 px-1 py-1 rounded">{{ user.campaigns.length }}/{{ user.plan.campaigns }}</span>
+              <br><br>
+              Go to your <router-link class='underline text-gray-800' to='/account'>account</router-link> to upgrade your subscription 😎
+            </div>
+         </div>
+       </div>
+      </div>
     </div>
 
     <!-- Detail -->
@@ -39,7 +55,7 @@
             </div>
           </div>
           <div class="w-full py-3 inline-flex items-center px-8" v-if='!campaignId'>
-            <div v-if='name && site ' class="hover:bg-gray-800 bg-gray-700 text-white right-0 py-1 px-2 border border-gray-700 rounded mb-2 cursor-pointer outline-none" @click='create()'>
+            <div v-if='name && site && user.plan.campaigns > user.campaigns.length' class="hover:bg-gray-800 bg-gray-700 text-white right-0 py-1 px-2 border border-gray-700 rounded mb-2 cursor-pointer outline-none" @click='create()'>
               + Create
             </div>
             <div v-else class="hover:bg-gray-800 bg-gray-700 text-white right-0 py-1 px-2 border border-gray-700 rounded mb-2 cursor-not-allowed outline-none">

@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <div class="bg-gray-100 h-auto min-h-screen">
-      <router-view />
+      <div style="max-width: 1080px; margin: 0 auto;">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

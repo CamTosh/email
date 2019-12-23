@@ -100,17 +100,17 @@
             </download-csv>
           </div>
         </div>
-        <div class="w-full py-3 flex flex-col hover:bg-gray-100 cursor-pointer" v-for='(email, k) in campaign.emails' :key='email.email'>
+        <!-- Filtering -->
+        <!-- <div class="w-full inline-flex items-center px-10 py-3 border-b border-gray-200 h-8 cursor-pointer">
+          <div class="w-1/5">Id</div>
+          <div class="w-2/5 ">Email</div>
+          <div class="w-2/5">Created at</div>
+        </div> -->
+        <div class="w-full py-3 flex flex-col hover:bg-gray-100" v-for='(email, k) in campaign.emails' :key='email.email'>
           <div class="w-full inline-flex h-12 px-8 m-2 py-3">
-            <div class="text-left w-1/5">
-              {{ k }}
-            </div>
-            <div class="w-2/5">
-              {{ email.email }}
-            </div>
-            <div class="text-right w-2/5">
-              <span class="font-l mr-2">{{ email.created_at }}</span>
-            </div>
+            <div class="w-1/5">{{ k }}</div>
+            <div class="w-2/5">{{ email.email }}</div>
+            <div class="w-2/5">{{ email.created_at }}</div>
           </div>
         </div>
       </div>
