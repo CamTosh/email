@@ -65,7 +65,7 @@
 
         <div class="w-full py-3 inline-flex md:justify-center items-center lg:justify-around flex-col md:flex-row lg:flex-row px-2">
 
-          <div class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow-md p-6" v-for='plan in plans' :class='{"shadow-2xl": selectedPlan == plan.id}'>
+          <div class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow-md p-6" v-for='plan in plans' :class='{"shadow-xl": selectedPlan == plan.id}'>
             <div class="w-full inline-flex">
               <div class="w-1/2 left-0">
                 <span class="bg-gray-600 text-gray-100 rounded-full h-6 px-3 py-1 capitalize">{{ plan.id }}</span>
