@@ -5,14 +5,13 @@ import store from "./store";
 import Axios from "axios";
 
 import TrendChart from "vue-trend-chart";
-import JsonCSV from 'vue-json-csv'
-import VueGoodTablePlugin from 'vue-good-table';
+import JsonCSV from "vue-json-csv";
+import VueGoodTablePlugin from "vue-good-table";
 import VCalendar from "v-calendar";
 
 import "@/assets/tailwind.css";
-import 'vue-good-table/dist/vue-good-table.css'
-
-Vue.component('downloadCsv', JsonCSV)
+import "vue-good-table/dist/vue-good-table.css";
+Vue.component("downloadCsv", JsonCSV);
 Vue.use(TrendChart);
 Vue.use(VueGoodTablePlugin);
 
@@ -31,5 +30,5 @@ if (accessToken) {
 new Vue({
   router,
   store,
-  render: (h) => h(App)
+  render: h => h(App)
 }).$mount("#app");

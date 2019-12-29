@@ -54,57 +54,64 @@
 
     <Error class='mt-4' v-if='error && billingError' :message='error' />
     <Info v-if='upgrade && info' :message='info' />
-
-		<div class="w-3/4 flex items-center mt-8 justify-center">
-			<div class="w-full bg-white pt-4 rounded shadow">
-				<div class="w-full border-b border-gray-200">
-					<div class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-600">
-						<div class=" text-gray-700">Billing</div>
-					</div>
-				</div>
-
-        <div class="w-full py-3 px-5 inline-flex md:justify-around lg:justify-around flex-col md:flex-row lg:flex-row px-8">
-          
-          <div class="w-full border-t-2 border-gray-900 md:w-1/3 lg:w-1/3 rounded h-64 shadow bg-gray-100 mt-2 cursor-pointer" :class='{"shadow-xl border-b-2": selectedPlan == "indie"}' @click='selectedPlan = "indie"'>
-            <h2 class="text-center text-gray-900 text-2xl pt-4">
-              5 € <span class="text-gray-700 text-sm capitalize">monthly</span>
-            </h2>
-            <ul class="px-4 pt-2 text-gray-900">
-              <li>5 Campaign</li>
-              <li>1 000 Emails per Campaign</li>
-            </ul>
+    <!-- Pricing -->
+    <div class="w-3/4 flex items-center mt-8 justify-center">
+      <div class="w-full bg-white pt-4 rounded shadow">
+        <div class="w-full border-b border-gray-200">
+          <div class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-600">
+            <div class=" text-gray-700">Billing</div>
           </div>
-          
-          <div class="w-full border-t-2 border-gray-900 md:w-1/3 lg:w-1/3 rounded h-64 shadow bg-gray-100 mt-2 cursor-pointer" :class='{"shadow-xl border-b-2": selectedPlan == "startup"}' @click='selectedPlan = "startup"'>
-            <h2 class="text-center text-gray-900 text-2xl pt-4">
-              10 € <span class="text-gray-700 text-sm capitalize">monthly</span>
-            </h2>
-            <ul class="px-4 pt-2 text-gray-900">
-              <li>10 Campaign</li>
-              <li>10 000 Emails per Campaign</li>
-            </ul>
-          </div>
-          
         </div>
 
-				<div class="w-full py-3 px-5 inline-flex items-center justify-center flex-col md:flex-row lg:flex-row px-8">
-			    <card class='w-full shadow md:w-2/4 lg:w-2/4'
-			      :class='{ complete }'
-			      stripe='pk_test_RWLO2o36Z9Jc9BWJRpH12b8000RU1kHkUS'
-			      :options='stripeOptions'
-			      @change='complete = $event.complete'
-			    />
+        <div class="w-full py-3 inline-flex md:justify-center items-center lg:justify-around flex-col md:flex-row lg:flex-row px-2">
 
-			    <div class="mt-4 md:mt-0 lg:mt-0 md:ml-4 lg:ml-4">
-				    <div class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" @click='pay' :disabled='!complete'>
+          <div class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow-md p-6" v-for='plan in plans' :class='{"shadow-2xl": selectedPlan == plan.id}'>
+            <div class="w-full inline-flex">
+              <div class="w-1/2 left-0">
+                <span class="bg-gray-600 text-gray-100 rounded-full h-6 px-3 py-1 capitalize">{{ plan.id }}</span>
+              </div>
+              <div v-if='storePlan == plan.id' class="w-1/2 right-0 text-right">
+                <span class="bg-gray-800 text-white rounded-full h-6 px-3 py-1">Current Plan</span> 
+              </div>
+            </div>
+            <h2 class="text-4xl text-gray-900">
+              {{ plan.price }} € <span class="text-lg text-gray-600">/month</span>
+            </h2>
+            <div class="text-gray-600">{{ plan.description }}</div>
+            <div class="inline-flex flex-col mt-2">
+              <div class="my-1 inline-flex flex-row" v-for='feature in plan.features'>
+                 <div class="font-bold pt-1 mr-2 text-green-600">
+                  <svg class="w-4 h-4 align-middle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                </div>
+                {{ feature }}
+              </div>
+            </div>
+            <div class="w-full mt-2 justify-center">
+              <div @click='selectedPlan = plan.id' class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" :class='{"bg-gray-800": selectedPlan == plan.id}'>
+                Get started
+              </div>
+            </div>
+          </div>
+         
+        </div>
+
+        <div class="w-full py-3 inline-flex items-center justify-center flex-col md:flex-row lg:flex-row px-8">
+          <card class='w-full shadow md:w-2/4 lg:w-2/4'
+            :class='{ complete }'
+            stripe='pk_test_RWLO2o36Z9Jc9BWJRpH12b8000RU1kHkUS'
+            :options='stripeOptions'
+            @change='complete = $event.complete'
+          />
+
+          <div class="mt-4 md:mt-0 lg:mt-0 md:ml-4 lg:ml-4">
+            <div class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" @click='pay' :disabled='!complete'>
               Pay with credit card
             </div>
-			    </div>
+          </div>
 
-				</div>
-			</div>
-		</div>
-
+        </div>
+      </div>
+    </div>
 
     <div class="w-3/4 flex items-center mt-8 justify-center mb-8">
       <div class="w-full bg-white pt-4 rounded shadow">
@@ -179,7 +186,31 @@ export default {
       complete: false,
       stripeOptions: {
         // see https://stripe.com/docs/stripe.js#element-options for details
-      }
+      },
+      plans: [
+        {
+          id: 'indie',
+          price: '5',
+          description: 'Great for building personal project',
+          features: [
+            '5 Campaigns',
+            '1 000 Emails Per Campaign',
+            'Statistics',
+            'Export'
+          ]
+        },
+        {
+          id: 'startup',
+          price: '10',
+          description: 'Great for building biggest project',
+          features: [
+            '10 Campaigns',
+            '10 000 Emails Per Campaign',
+            'Statistics',
+            'Export'
+          ]
+        },
+      ]
     }
   },
   mounted() {

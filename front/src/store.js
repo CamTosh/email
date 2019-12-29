@@ -8,16 +8,18 @@ const API = "http://localhost:6969";
 export default new Vuex.Store({
   state: {
     api: API,
-    loginPending: false, 
+    loginPending: false,
     status: "",
     token: localStorage.getItem("token") || "",
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem("user")) : null,
+    user: localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
   },
   mutations: {
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, {token, user}) {
+    auth_success(state, { token, user }) {
       state.status = "success";
       state.token = token;
       state.user = user;
@@ -52,21 +54,23 @@ export default new Vuex.Store({
           url: API + "/user",
           method: "GET"
         })
-          .then((resp) => {
+          .then(resp => {
             localStorage.setItem("user", JSON.stringify(resp.data));
-            let user = {...this.state.user}
+            let user = { ...this.state.user };
 
-            user.plan = resp.data.plan ? resp.data.plan : user.plan
-            user.invoice = resp.data.invoice ? resp.data.invoice : user.invoice
-            user.campaigns = resp.data.campaigns ? resp.data.campaigns : user.campaigns
-            
+            user.plan = resp.data.plan ? resp.data.plan : user.plan;
+            user.invoice = resp.data.invoice ? resp.data.invoice : user.invoice;
+            user.campaigns = resp.data.campaigns
+              ? resp.data.campaigns
+              : user.campaigns;
+
             commit("auth_success", {
               token: this.state.token,
               user
             });
             resolve(resp);
           })
-          .catch((err) => {
+          .catch(err => {
             commit("logout");
             reject(err);
           });
@@ -81,15 +85,15 @@ export default new Vuex.Store({
           data: user,
           method: "POST"
         })
-          .then((resp) => {
+          .then(resp => {
             const token = `Bearer ${resp.data.bearer}`;
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(resp.data.user));
-            commit("auth_success", {token, user: resp.data.user});
+            commit("auth_success", { token, user: resp.data.user });
             commit("pending_login");
             resolve(resp);
           })
-          .catch((err) => {
+          .catch(err => {
             commit("auth_error");
             localStorage.removeItem("token");
             commit("pending_login");
@@ -101,18 +105,18 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit("auth_request");
         axios({ url: API + "/user", data: user, method: "POST" })
-          .then((resp) => {
+          .then(resp => {
             const token = `Bearer ${resp.data.bearer}`;
 
             axios.defaults.headers.common["Authorization"] = token;
-            
+
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(resp.data.user));
 
-            commit("auth_success", {token, user: resp.data.user});
+            commit("auth_success", { token, user: resp.data.user });
             resolve(resp);
           })
-          .catch((err) => {
+          .catch(err => {
             commit("auth_error", err);
             localStorage.removeItem("token");
             reject(err);
@@ -136,18 +140,18 @@ export default new Vuex.Store({
           data: campaign,
           method: "POST"
         })
-          .then((resp) => {
+          .then(resp => {
             const data = JSON.parse(resp.data);
             if (data.error) {
               throw new Error(data.error);
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             commit("alert_error", err);
           });
       });
-    },
+    }
   },
   getters: {
     user: state => state.user,

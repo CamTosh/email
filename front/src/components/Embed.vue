@@ -1,16 +1,20 @@
 <template>
-	<textarea class="rounded-b-lg bg-gray-800 h-32 py-2 overflow-hidden text-gray-100 select-all -mt-4 w-full resize-none" disabled>
+  <textarea
+    class="rounded-b-lg bg-gray-800 h-32 py-2 overflow-hidden text-gray-100 select-all -mt-4 w-full resize-none"
+    disabled
+  >
 		<div>
-			<input id="email" type="text" data-campaign="{{ campaignId }}">
+			<input id="email" type="text" data-campaign="{{ campaignId }}">
 			<button id="send">Send</button>
 		</div>
 		<script type="text/javascript" src='https://emailing.co/lib.min.js'></script>
-	</textarea>
+	</textarea
+  >
 </template>
 <script>
-	export default {
-		props: {
-			campaignId: String
-		}
-	}
+export default {
+  props: {
+    campaignId: String
+  }
+};
 </script>
