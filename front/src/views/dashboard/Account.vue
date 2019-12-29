@@ -53,6 +53,8 @@
     </div>
 
     <Error class='mt-4' v-if='error && billingError' :message='error' />
+    <Info v-if='upgrade && info' :message='info' />
+
 		<div class="w-3/4 flex items-center mt-8 justify-center">
 			<div class="w-full bg-white pt-4 rounded shadow">
 				<div class="w-full border-b border-gray-200">
@@ -64,8 +66,8 @@
         <div class="w-full py-3 px-5 inline-flex md:justify-around lg:justify-around flex-col md:flex-row lg:flex-row px-8">
           
           <div class="w-full border-t-2 border-gray-900 md:w-1/3 lg:w-1/3 rounded h-64 shadow bg-gray-100 mt-2 cursor-pointer" :class='{"shadow-xl border-b-2": selectedPlan == "indie"}' @click='selectedPlan = "indie"'>
-            <h2 class="text-center text-gray-700 text-2xl pt-4">
-              5 €
+            <h2 class="text-center text-gray-900 text-2xl pt-4">
+              5 € <span class="text-gray-700 text-sm capitalize">monthly</span>
             </h2>
             <ul class="px-4 pt-2 text-gray-900">
               <li>5 Campaign</li>
@@ -74,8 +76,8 @@
           </div>
           
           <div class="w-full border-t-2 border-gray-900 md:w-1/3 lg:w-1/3 rounded h-64 shadow bg-gray-100 mt-2 cursor-pointer" :class='{"shadow-xl border-b-2": selectedPlan == "startup"}' @click='selectedPlan = "startup"'>
-            <h2 class="text-center text-gray-700 text-2xl pt-4">
-              10 €
+            <h2 class="text-center text-gray-900 text-2xl pt-4">
+              10 € <span class="text-gray-700 text-sm capitalize">monthly</span>
             </h2>
             <ul class="px-4 pt-2 text-gray-900">
               <li>10 Campaign</li>
@@ -112,8 +114,29 @@
           </div>
         </div>
         <div class="w-full py-4 inline-flex items-center md:justify-around lg:justify-around flex-col px-6">
-          <div class="w-full bg-gray-100 rouded h-24 mt-2" v-for='invoice in invoices.reverse()'>
-            {{ invoice }}
+          <div class="w-full inline-flex justify-around border-l-2 border-gray-800 px-4 py-3 00 bg-gray-100 rouded h-24 mt-2" v-for='invoice in invoices'>
+            <div class="w-full inline-flex justify-around mr-4">
+              <div class="w-1/2 h-full">
+                <div class="text-gray-900 font-medium text-lg my-2">
+                  Plan: <span class="text-gray-800 font-normal capitalize"> {{ invoice.plan }}</span>
+                </div>
+                <div class="text-gray-900 font-medium text-lg my-2">
+                  Start: <span class="text-gray-800 font-normal"> {{ parseDate(invoice.start) }}</span> 
+                </div>
+              </div>
+              <div class="w-1/2 h-full">
+                <div class="text-gray-900 font-medium text-lg my-2">
+                  Price: <span class="text-gray-800 font-normal"> {{ Math.round(invoice.price) / 100 }} {{ invoice.currency }}</span>
+                </div>
+                <div class="text-gray-900 font-medium text-lg my-2">
+                  End: <span class="text-gray-800 font-normal"> {{ parseDate(invoice.end) }}</span> 
+                </div>
+              </div>
+            </div>
+            <div v-if='isCurrentPlan(invoice)' class="font-bold pt-1 pl-1 text-green-600">
+              <svg class="w-6 h-6 align-middle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            
           </div>
         </div>      
        </div>
@@ -127,6 +150,7 @@ import Header from '@/components/Header.vue';
 import Info from '@/components/Info.vue';
 import Error from '@/components/Error.vue';
 import axios from "axios";
+import moment from "moment";
 
 import { Card, createToken } from 'vue-stripe-elements-plus'
  
@@ -144,6 +168,8 @@ export default {
       billingError: null,
       error: null,
       email: '',
+      info: null,
+      upgrade: null,
       password: '',
       firstName: '',
       lastName: '',
@@ -170,6 +196,13 @@ export default {
     this.token = this.$store.getters.token
   },
   methods: {
+    parseDate(date) {
+      return moment.unix(date).format('DD MMM YYYY')
+    },
+    isCurrentPlan(invoice) {
+      const now = moment(new Date()).format('X');
+      return now >= invoice.start && now <= invoice.end;
+    },
     async pay () {
       if (this.selectedPlan && this.selectedPlan !== this.storePlan) {
         this.billingError = false
@@ -185,10 +218,13 @@ export default {
           }
         });
         const data = response.data
-        console.log(data)
+        this.upgrade = data
         if (data.error) {
           this.error = data.error;
           this.billingError = true
+        } 
+        if (data) {
+          this.info = 'Account Upgrade!'
         }
       } else {
         this.error = 'Please select a billing plan';

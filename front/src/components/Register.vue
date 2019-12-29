@@ -68,6 +68,9 @@ export default {
         lastName: ""
       }
     },
+    mounted() {
+        this.mail = this.$route.params.email
+    },
     methods: {
       register: function () {
         if (this.mail && this.password && this.lastName && this.firstName) {

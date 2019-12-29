@@ -2,60 +2,65 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>The Bullshit Company</title>
+    <title>Email Landing Page</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="mb-4">
+<body class="mb-4 bg-gray-100" style="margin: 0 auto;">
 
     <h1 class="title">
         <span class="first">email-</span><br>
         <span class="twice">landing</span><br>
         <span class="third">.page</span><br>
+            
+        <p class="w-full capitalize tracking-wide text-center text-sm text-gray-800">Collect email from your landing page.</p>
     </h1>
-
-    <header>
-        <a href="#Demo">Demo</a>
+    
+    
+    <header class="border-t border-b border-gray-700 py-4 -mt-8">
         <a href="#Features">Features</a>
         <a href="#Pricing">Pricing</a>
         <a href="#Documentation">Documentation</a>
         <a href="#Dashboard">Dashboard</a>
     </header>
 
-    <div class="item flex xs:flex-col sm:flex-col md:flex-row lg:flex-row items-center">
-        <div class="w-1/2 capitalize tracking-wide text-left text-xl text-gray-800">
-            <p>The most simple email form for your landing page</p>
+    <div class="inline-flex flex-col xs:flex-col sm:flex-col md:flex-col lg:flex-row items-center px-6">
+        <div class="w-2/3 xs:w-2/3 sm:w-2/3 md:w-2/3 lg:w-full tracking-wide text-left text-xl text-gray-800">
+            <p style="width: 18rem;">
+                The <span class="text-gray-900 font-normal underline">Most Simple email form</span> for your landing page.
+            </p>
         </div>
-        <div class="w-1/2 xs:mt-4 sm:mt-4">
-            <div class="w-full mb-2 text-gray-700 text-lg text-left md:pl-10">
-                Working Example :
-            </div>
-            <div class="w-full inline-flex md:ml-10 flex-row items-center">
-                <input class="py-2 px-3 outline-none border-1 border-gray-400 text-gray-900 shadow rounded bg-gray-100 focus:bg-white w-auto" placeholder="Your email address">
-                <div class="hover:bg-gray-800 bg-gray-700 text-white text-sm py-1 px-4 border border-gray-700 rounded ml-2 cursor-pointer outline-none select-none cursor-pointer">
+        <div class="w-full inline-flex mt-4 ml-32 flex-col items-center">
+            <div class="text-left w-full pb-2 text-lg font-normal text-gray-800">Start now</div>
+            <div class="inline-flex flex-row">
+                <input class="py-2 px-3 outline-none border-1 border-gray-400 text-gray-900 shadow rounded bg-white w-auto" placeholder="Your email address" id="email" type="text" data-campaign="5e07df4facb6f861dc3a07c2">
+                <div class="hover:bg-gray-800 bg-gray-700 text-white text-sm py-1 px-4 border border-gray-700 rounded ml-2 cursor-pointer outline-none select-none cursor-pointer" id="send">
                     Send
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- <div class="w-1/2">
-                <div class="w-full mb-2 text-gray-700 text-lg">
-                    Working Example :
-                </div>
-                <div class="w-full inline-flex flex-row items-center">
-                    <input class="py-2 px-3 outline-none border-1 border-gray-400 text-gray-900 shadow rounded bg-gray-100 focus:bg-white w-auto" placeholder="Your email address">
-                    <div class="hover:bg-gray-800 bg-gray-700 text-white text-sm py-1 px-4 border border-gray-700 rounded ml-2 cursor-pointer outline-none select-none cursor-pointer">
-                        Send
-                    </div>
-                </div>
-            </div> -->
+    <div class="inline-flex flex-col items-center px-6 mt-8">
+        <div class="w-2/5 xs:w-2/5 sm:w-2/5 md:w-2/5 lg:w-full tracking-wide text-left text-xl text-gray-800">
+            <ul style="width: 18rem;">
+                <li class="list-disc md:ml-4">Multiple campaigns</li>
+                <li class="list-disc md:ml-4">Easy to integrate</li>
+                <li class="list-disc md:ml-4">Clean analytics</li>
+                <li class="list-disc md:ml-4">Export</li>
+                <li class="list-disc md:ml-4">Try for free</li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/emailLandingPage.js"></script>
+    <script type="text/javascript">
+        // const callback = (email) => window.location.replace(`https://app.email-landing.page/register/${email}`);
+        const callback = (email) => window.location.replace(`http://localhost:8080/register/${email}`);
+        const error = (err) => {
+            console.log(err)
+        };
 
-        <!--         <div class="w-1/2 capitalize tracking-wide text-left text-xl text-gray-800">
-                <p>The most simple email form for your landing page</p>
-            </div>
-     -->
-
-
+        emailLandingPage(callback, error);
+    </script>
 </body>
 </html>

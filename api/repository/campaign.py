@@ -21,6 +21,7 @@ class CampaignRepository(MongoRepository):
 
         return result
 
+
     def getCampaign(self, userId, cmpgnId):
         campaign = mongo.db[self.collection].find_one({'_id': ObjectId(cmpgnId)})
         if campaign['creator'] != userId:

@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div v-if="user.plan.campaigns == user.campaigns.length" class="w-3/4 flex items-center mt-4 justify-center">
+    <div v-if="user.campaigns && user.plan.campaigns == user.campaigns.length" class="w-3/4 flex items-center mt-4 justify-center">
       <div class="w-auto bg-white pt-4 rounded shadow-xl">
         <div class="w-auto border-b border-gray-200">
           <div class="w-auto inline-flex px-3 mb-2">

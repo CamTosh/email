@@ -82,6 +82,9 @@ def charge():
 			'plan': plan,
 			'price': subscription.plan.amount,
 			'currency': subscription.plan.currency,
+			'id': subscription.id,
+			'start': subscription.current_period_start,
+			'end': subscription.current_period_end,
 		})
 
 		userRepository.update(user['id'], {

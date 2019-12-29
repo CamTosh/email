@@ -33,6 +33,11 @@ let router = new Router({
       component: Register
     },
     {
+      path: "/register/:email",
+      name: "registerWithEmail",
+      component: Register
+    },
+    {
       path: "/dashboard",
       name: "Dashboard",
       component: Dashboard,

@@ -28,7 +28,7 @@
         </div>
         <router-link 
           class="w-full py-3 flex flex-col hover:bg-gray-100 cursor-pointer"
-          v-for='campaign in campaigns.reverse()'
+          v-for='campaign in campaigns.slice().reverse()'
           :to='"dashboard/campaign/" + campaign.id'
         >
           <div class="w-full inline-flex justify-between h-12 px-8 m-2 py-3">
