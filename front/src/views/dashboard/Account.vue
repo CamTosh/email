@@ -66,11 +66,11 @@
         <div class="w-full py-3 inline-flex md:justify-center items-center lg:justify-around flex-col md:flex-row lg:flex-row px-2">
 
           <div class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow-md p-6" v-for='plan in plans' :class='{"shadow-xl": selectedPlan == plan.id}'>
-            <div class="w-full inline-flex">
-              <div class="w-1/2 left-0">
+            <div class="w-full inline-flex items-center justify-center lg:justify-around flex-col md:flex-row lg:flex-row">
+              <div class="w-full text-center mt-2 lg:mt-0 lg:text-left lg:left-0">
                 <span class="bg-gray-600 text-gray-100 rounded-full h-6 px-3 py-1 capitalize">{{ plan.id }}</span>
               </div>
-              <div v-if='storePlan == plan.id' class="w-1/2 right-0 text-right">
+              <div class="w-full text-center mt-2 lg:mt-0 lg:right-0 lg:text-right" v-if='storePlan == plan.id'>
                 <span class="bg-gray-800 text-white rounded-full h-6 px-3 py-1">Current Plan</span> 
               </div>
             </div>
@@ -228,7 +228,7 @@ export default {
   },
   methods: {
     parseDate(date) {
-      return moment.unix(date).format('DD MMM YYYY')
+      return moment.unix(date).format('DD MMMM YYYY')
     },
     isCurrentPlan(invoice) {
       const now = moment(new Date()).format('X');
