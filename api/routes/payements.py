@@ -53,11 +53,12 @@ def charge():
 		try:		
 			# Create stripe customer
 			customer = stripe.Customer.create(
-				description=user['mail'],
+				email=user['mail'],
+				description="[{}] - {} {}".format(user['id'], user['firstName'], user['lastName']),
 				source=data['stripeToken'],
 				metadata={
 					"id": user['id'],
-					"mail": user['mail'],
+					"email": user['mail'],
 					"firstName": user['firstName'],
 					"lastName": user['lastName'],
 				},
@@ -98,7 +99,6 @@ def charge():
 		    'plan': plans[plan]['stripe'],
 		  }]
 		)
-		print(str(subscription))
 	try:	
 
 		invoice = []

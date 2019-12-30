@@ -104,7 +104,7 @@
           />
 
           <div class="mt-4 md:mt-0 lg:mt-0 md:ml-4 lg:ml-4">
-            <div class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" @click='pay' :disabled='!complete'>
+            <div class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" @click='pay' :class="{'cursor-not-allowed': pending}">
               Pay with credit card
             </div>
           </div>
@@ -184,6 +184,7 @@ export default {
       selectedPlan: null,
       storePlan: null,
       complete: false,
+      pending: false,
       stripeOptions: {
         // see https://stripe.com/docs/stripe.js#element-options for details
       },
@@ -235,7 +236,8 @@ export default {
       return now >= invoice.start && now <= invoice.end;
     },
     async pay() {
-      if (this.selectedPlan && this.selectedPlan !== this.storePlan) {
+      if (this.selectedPlan && this.selectedPlan !== this.storePlan && !this.pending) {
+        this.pending = true;
         this.billingError = false
         const { token } = await createToken();
 
@@ -261,6 +263,7 @@ export default {
         this.error = 'Please select a billing plan';
         this.billingError = true
       }
+      this.pending = false;
     },
     async updateAccount() {
       const response = await axios({

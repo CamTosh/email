@@ -126,7 +126,7 @@
 
     <!-- Chart -->
     <div
-      v-if="campaign && labels.yLabels >= 2"
+      v-if="campaign"
       class="w-3/4 flex items-center mt-8 justify-center"
     >
       <div class="w-full bg-white pt-4 rounded shadow">
@@ -134,21 +134,31 @@
           <div
             class="w-full border-b border-gray-200 inline-flex justify-between px-3 font-bold text-gray-700"
           >
-            <div class="px-2 mb-2">Emails</div>
+            <div class="px-2 mb-2">Emails of this {{ filterBy }}</div>
+            <div class="px-2 mb-2 inline-flex flex-row justify-between">
+              <div
+                class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none mr-2"
+                v-for='filter in ["day", "month", "year", "all"]'
+                @click="changeFilter(filter)"
+              >
+                {{ filter }}
+              </div>
+
+            </div>
           </div>
           <div class="w-full py-3 px-3 flex flex-col">
             <TrendChart
-              v-if="datasets"
+              v-if="datasets && labels.yLabels >= 2"
               :interactive="true"
               :datasets="datasets"
-              :grid="{
-                verticalLines: true,
-                horizontalLines: true
-              }"
               :labels="labels"
               :min="0"
+              :grid="grid"
             >
             </TrendChart>
+            <div v-else>
+              No email for this period :(
+            </div>
           </div>
         </div>
       </div>
@@ -179,6 +189,7 @@
           :columns="columns"
           :rows="campaign.emails"
           :search-options="searchOptions"
+          :totalRows='campaign.emails.length'
           :pagination-options="{
             enabled: true,
             mode: 'records',
@@ -220,6 +231,12 @@ export default {
   data() {
     return {
       wantDelete: false,
+      grid: {
+        verticalLines: true,
+        verticalLinesNumber: 1,
+        horizontalLines: true,
+        horizontalLinesNumber: 1
+      },
       columns: [
         {
           label: "id",
@@ -244,6 +261,7 @@ export default {
       openEmbed: false,
       needUpgrade: false,
       datasets: null,
+      filterBy: 'month', // day, month, year, all
       labels: {
         xLabels: [],
         yLabels: 0,
@@ -261,6 +279,7 @@ export default {
     this.user = this.$store.getters.user;
     this.api = this.$store.getters.api;
     this.token = this.$store.getters.token;
+    
     this.getCampaign();
   },
   methods: {
@@ -289,28 +308,46 @@ export default {
       if (this.campaign.total > this.campaign.emails.length) {
         this.needUpgrade = true;
       }
-
+      this.formatchartData();
+    },
+    formatchartData() {
       let datasets = this.campaign.emails.map(e => {
-        return {
-          dataset: e.moment.date(),
-          labels: e.moment.format("ddd")
+        if (!e.moment) {
+          return null; 
+        }
+        const value = {
+          dataset: e.moment.toString(),
+          labels: e.moment.format("MMM-DD")
         };
-      });
+        if (this.filterBy === 'day') {
+          if (e.moment.format("DD-MM-YY") == moment(new Date()).format('DD-MM-YY')) {
+            return value;
+          }
+            
+        }
+        if (this.filterBy === 'month') {
+          if (e.moment.format("MM-YY") == moment(new Date()).format('MM-YY')) {
+            return value;
+          }
+        }
+        if (this.filterBy === 'year') {
+          if (e.moment.format("YY") == moment(new Date()).format('YY')) {
+            return value;
+          }
+        }
+        if (this.filterBy === 'all') {
+          return value;
+        }
+
+        return null
+      }).filter((d) => d);
 
       let item = {};
       datasets
-        .map(d => d.dataset)
+        .map(d => d.labels)
         .forEach(function(v) {
           item[v] = (item[v] || 0) + 1;
         });
-
-      this.campaign.emails = this.campaign.emails.map(e => {
-        return {
-          id: e.id,
-          email: e.email,
-          created_at: e.created_at
-        };
-      });
 
       this.datasets = [
         {
@@ -320,10 +357,14 @@ export default {
           showPoints: true
         }
       ];
-
-      this.labels.xLabels = datasets.map(l => l.labels).unique();
-      this.labels.yLabels = this.labels.xLabels.length;
+      const uniqueDataset = datasets.map(d => d.labels).unique();
+      this.labels.xLabels = uniqueDataset;
+      this.labels.yLabels = uniqueDataset.length;
     },
+    changeFilter(val) {
+      this.filterBy = val
+      this.formatchartData()
+    }, 
     async deleteCampaign() {
       axios.defaults.headers.common["Authorization"] = this.token;
       const response = await axios({
