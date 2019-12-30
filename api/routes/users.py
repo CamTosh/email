@@ -53,16 +53,18 @@ def user_create():
 
 
 @routes.route('/user', methods=['PUT'])
-@jsonschema.validate('user', 'update')
 @jwt_required
 def user_update():
 	user = userRepository.getUser(get_jwt_identity())
 	if not user:
 		return jsonify({"error": "User not exist"})
-
-	userRepository.update(user['id'], request.json)
-	return jsonify(True)
-
+	try:
+		print(str(request.json))
+		userRepository.updateUser(user['id'], request.json)
+		return jsonify(True)
+	except Exception as e:
+		return jsonify(False)		
+	
 
 @routes.route('/user', methods=['DELETE'])
 @jwt_required
@@ -74,19 +76,23 @@ def user_delete():
 	userRepository.remove(user['id'])
 	return jsonify(True)
 
-
 @routes.route('/login', methods=['POST'])
 def login():
-	user = userRepository.isLoginValid(
-		request.json['mail'], 
-		str(request.json['password'])
-	)
-	
-	if not user:
+	try:
+		user = userRepository.isLoginValid(
+			request.json['mail'], 
+			str(request.json['password'])
+		)
+		
+		if not user:
+			return jsonify({"error": "User not exist"})
+
+		expires = datetime.timedelta(days=365)
+		bearer= create_access_token(str(user['_id']), expires_delta=expires)
+		user = userRepository.getUser(str(user['_id']))
+
+		return jsonify({"bearer": bearer, "user": user})
+
+	except Exception as e:
 		return jsonify({"error": "User not exist"})
-
-	expires = datetime.timedelta(days=365)
-	bearer= create_access_token(str(user['_id']), expires_delta=expires)
-	user = userRepository.getUser(str(user['_id']))
-
-	return jsonify({"bearer": bearer, "user": user})
+	return jsonify({"error": "User not exist"})

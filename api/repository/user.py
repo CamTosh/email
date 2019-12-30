@@ -17,6 +17,14 @@ class UserRepository(MongoRepository):
         user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
         return self.add(user)
 
+    def updateUser(self, userId, data):
+        if data['password']:
+            print(str('Update password of: ' + userId))
+            data['password'] = str(data['password'] ).encode('utf8')
+            data['password'] = bcrypt.hashpw(data['password'], bcrypt.gensalt())
+
+        self.update(userId, data)
+
     def isUserExist(self, mail):
         try:
             return len(mongo.db[self.collection].find_one({'mail': mail})) > 0

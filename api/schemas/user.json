@@ -19,21 +19,5 @@
       "firstName",
       "lastName"
     ]
-  },
-  "update": {
-    "type": "object",
-    "properties": {
-      "mail": {
-        "type": "string"
-      },
-      "password": {
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 1000
-      },
-      "firstName": { "type": "string"},
-      "lastName": { "type": "string"}
-    },
-    "required": []
   }
 }

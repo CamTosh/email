@@ -178,12 +178,7 @@
           class="w-full"
           :columns="columns"
           :rows="campaign.emails"
-          :search-options="{
-            enabled: true,
-            trigger: '',
-            skipDiacritics: true,
-            placeholder: 'Search Email'
-          }"
+          :search-options="searchOptions"
           :pagination-options="{
             enabled: true,
             mode: 'records',
@@ -253,7 +248,13 @@ export default {
         xLabels: [],
         yLabels: 0,
         yLabelsTextFormatter: val => Math.round(val)
-      }
+      },
+      searchOptions: {
+        enabled: true,
+        trigger: '',
+        skipDiacritics: true,
+        placeholder: 'Search Email'
+      },
     };
   },
   mounted() {
@@ -273,7 +274,9 @@ export default {
       if (data.error) {
         throw new Error(data.error);
       }
+      
       this.campaign = data;
+      this.searchOptions.trigger = this.campaign.emails.length >= 1000 ? 'enter' : '' 
 
       let i = 1;
       this.campaign.emails = this.campaign.emails.map(cmp => {

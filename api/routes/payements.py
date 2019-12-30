@@ -20,12 +20,12 @@ campaignRepository = CampaignRepository()
 
 plans = {
 	'indie': {
-		'stripe': 'plan_GP0jHMr6I8Ri6E',
+		'stripe': 'plan_GSJSSCSnn80JRK',
 		'campaigns': 5,
 		'emailsPerCampaign': 5000
 	},
 	'startup': {
-		'stripe': 'plan_GP0lG51Rl7Lsq7',
+		'stripe': 'plan_GSJS49XeJs5fh0',
 		'campaigns': 10,
 		'emailsPerCampaign': 10000
 	}
@@ -49,32 +49,60 @@ def charge():
 		return jsonify({"error": "user doesn't exist"})
 
 	if not user['customer_id']:
-		print('Create customer for: [' + user['mail'] + '][' + user['id'] + ']')
-		customer = stripe.Customer.create(
-			description=user['mail'],
-			source=data['stripeToken'],
-			metadata={
-				"id": user['id'],
-				"mail": user['mail'],
-				"firstName": user['firstName'],
-				"lastName": user['lastName'],
-			},
-		)
-		userRepository.update(user['id'], {'customer_id': customer.id})
-		customer_id = customer.id
-	else:
-		customer_id = user['customer_id']
+		print('Create customer for: [{}][{}]'.format(user['mail'], user['id']))
+		try:		
+			# Create stripe customer
+			customer = stripe.Customer.create(
+				description=user['mail'],
+				source=data['stripeToken'],
+				metadata={
+					"id": user['id'],
+					"mail": user['mail'],
+					"firstName": user['firstName'],
+					"lastName": user['lastName'],
+				},
+			)
+		except Exception as e:
+			print(str(e))
+			return jsonify({'error': 'stripe error'})
 
-	try:	
-		subscription = stripe.Subscription.create(
-		  customer=customer_id,
-		  items=[{
-		  	"plan": plans[plan]['stripe']
-		  }],
+		userRepository.update(user['id'], {'customer_id': customer.id})
+
+		try:
+			# Create subscription
+			subscription = stripe.Subscription.create(
+			  customer=customer.id,
+			  items=[{
+			  	"plan": plans[plan]['stripe']
+			  }],
+			)
+
+		except Exception as e:
+			print(str(e))
+			return jsonify({'error': 'stripe error'})
+	else:
+		customerData = stripe.Customer.retrieve(user['customer_id'])
+		currentSubscription = stripe.Subscription.retrieve(
+			customerData['subscriptions']['data'][0].id
 		)
+		
+		oldPlan = plan
+		plan = 'indie' if oldPlan == 'startup' else 'startup'
+		print('[{}][{}] Upgrade plan {} to {}'.format(user['customer_id'], user['mail'], oldPlan, plan))
+
+		subscription = stripe.Subscription.modify(
+		  currentSubscription.id,
+		  cancel_at_period_end=False,
+		  items=[{
+		    'id': currentSubscription['items']['data'][0].id,
+		    'plan': plans[plan]['stripe'],
+		  }]
+		)
+		print(str(subscription))
+	try:	
 
 		invoice = []
-		if user['invoice']:
+		if 'invoice' in user.keys():
 			invoice = user['invoice']
 
 		invoice.append({

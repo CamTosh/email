@@ -12,7 +12,7 @@
         </div>
 
         <div class="w-full py-3 px-5 inline-flex items-center md:justify-around lg:justify-around flex-col px-8">
-          <form class="w-full md:px-8 lg:px-8 pt-6 rounded inline-flex flex-col md:flex-row lg:flex-row">
+          <div class="w-full md:px-8 lg:px-8 pt-6 rounded inline-flex flex-col md:flex-row lg:flex-row">
             <div class="w-full md:w-1/2 lg:w-1/2 md:pr-4 lg:pr-4">
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-bold text-gray-700">
@@ -42,7 +42,7 @@
                     <input required v-model="lastName" class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" />
                 </div>
             </div>
-          </form>
+          </div>
           <div class="w-4/5 md:w-1/5 lg:w-1/5 my-2">
             <div class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" @click='updateAccount()'>
               Update account
@@ -234,7 +234,7 @@ export default {
       const now = moment(new Date()).format('X');
       return now >= invoice.start && now <= invoice.end;
     },
-    async pay () {
+    async pay() {
       if (this.selectedPlan && this.selectedPlan !== this.storePlan) {
         this.billingError = false
         const { token } = await createToken();
@@ -261,6 +261,24 @@ export default {
         this.error = 'Please select a billing plan';
         this.billingError = true
       }
+    },
+    async updateAccount() {
+      const response = await axios({
+          url: `${this.api}/user`,
+          method: "PUT",
+          data: {
+            mail: this.email,
+            password: this.password,
+            firstName: this.firstName,
+            lastName: this.lastName,
+          }
+        });
+        const data = response.data
+        if (data) {
+          this.info = 'Account Updated!'
+        } else {
+          this.error = 'Error on account update'
+        }
     }
   }
 };
