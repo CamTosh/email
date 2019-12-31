@@ -31,7 +31,6 @@ plans = {
 	}
 }
 
-
 @routes.route('/purchase', methods=['POST'])
 @jwt_required
 def charge():
@@ -49,9 +48,9 @@ def charge():
 		return jsonify({"error": "user doesn't exist"})
 
 	if not user['customer_id']:
+		# Create customer on stripe
 		print('Create customer for: [{}][{}]'.format(user['mail'], user['id']))
 		try:		
-			# Create stripe customer
 			customer = stripe.Customer.create(
 				email=user['mail'],
 				description="[{}] - {} {}".format(user['id'], user['firstName'], user['lastName']),
@@ -67,40 +66,34 @@ def charge():
 			print(str(e))
 			return jsonify({'error': 'stripe error'})
 
-		userRepository.update(user['id'], {'customer_id': customer.id})
-
-		try:
-			# Create subscription
-			subscription = stripe.Subscription.create(
-			  customer=customer.id,
-			  items=[{
-			  	"plan": plans[plan]['stripe']
-			  }],
-			)
-
-		except Exception as e:
-			print(str(e))
-			return jsonify({'error': 'stripe error'})
+		customerId = customer.id
+		userRepository.update(user['id'], {'customer_id': customerId})
 	else:
-		customerData = stripe.Customer.retrieve(user['customer_id'])
+		# Cancel current subscription
+		customerId = user['customer_id']
+		
+		customerData = stripe.Customer.retrieve(customerId)
 		currentSubscription = stripe.Subscription.retrieve(
 			customerData['subscriptions']['data'][0].id
 		)
-		
-		oldPlan = plan
-		plan = 'indie' if oldPlan == 'startup' else 'startup'
-		print('[{}][{}] Upgrade plan {} to {}'.format(user['customer_id'], user['mail'], oldPlan, plan))
 
-		subscription = stripe.Subscription.modify(
-		  currentSubscription.id,
-		  cancel_at_period_end=False,
+		stripe.Subscription.delete(currentSubscription.id)	
+	try:
+		# Create subscription for plan
+
+		subscription = stripe.Subscription.create(
+		  customer=customerId,
 		  items=[{
-		    'id': currentSubscription['items']['data'][0].id,
-		    'plan': plans[plan]['stripe'],
-		  }]
+		  	"plan": plans[plan]['stripe']
+		  }],
 		)
-	try:	
 
+	except Exception as e:
+		print(str(e))
+		return jsonify({'error': 'stripe error'})
+
+	try:	
+		# Persist invoice
 		invoice = []
 		if 'invoice' in user.keys():
 			invoice = user['invoice']
