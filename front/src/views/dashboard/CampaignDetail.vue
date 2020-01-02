@@ -240,7 +240,8 @@ export default {
       columns: [
         {
           label: "id",
-          field: "id"
+          field: "id",
+          type: "number"
         },
         {
           label: "Email",
@@ -310,7 +311,17 @@ export default {
       }
       this.formatchartData();
     },
+    export() {
+      return this.campaign.emails.map((email) => {
+        return {
+          id: email.id,
+          created_at: email.moment.toString(),
+          email: email.email,
+        }
+      })
+    },
     formatchartData() {
+
       let datasets = this.campaign.emails.map(e => {
         if (!e.moment) {
           return null; 
@@ -341,7 +352,9 @@ export default {
 
         return null
       }).filter((d) => d);
-
+      
+      datasets.reverse();
+      
       let item = {};
       datasets
         .map(d => d.labels)

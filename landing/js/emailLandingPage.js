@@ -19,13 +19,15 @@ const emailLandingPage = (callback, error) => {
 				console.log(data);
 				if (data.error) {
 					error(data.error);
-				} else {
+				} else if (callback !== null) {
 					callback(email);
 				} 
 			})
-			.catch((error) => {
-				console.log(error);
-				error(error)
+			.catch((err) => {
+				console.log(err);
+				if (error !== null) {
+					error(err)
+				}
 			});
 		}
 		else {

@@ -14,6 +14,9 @@ import "vue-good-table/dist/vue-good-table.css";
 Vue.component("downloadCsv", JsonCSV);
 Vue.use(TrendChart);
 Vue.use(VueGoodTablePlugin);
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
 
 Vue.use(VCalendar, {
   locale: "fr"
