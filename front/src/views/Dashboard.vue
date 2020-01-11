@@ -32,7 +32,7 @@
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
           <div
-            class="w-full inline-flex justify-between px-3 font-bold text-gray-600"
+            class="w-full inline-flex justify-between px-3 font-medium text-gray-600"
           >
             <div class=" text-gray-700">Campaign</div>
             <router-link

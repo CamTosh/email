@@ -86,6 +86,7 @@ export default new Vuex.Store({
           method: "POST"
         })
           .then(resp => {
+            console.log(resp.data)
             const token = `Bearer ${resp.data.bearer}`;
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(resp.data.user));

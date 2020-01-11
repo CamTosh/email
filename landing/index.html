@@ -1,58 +1,161 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://css.gg/c?=|website|mail|chart|software-download|play-list-check" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <title>Email Landing Page</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <meta name="keywords" content="email, landing, page, form, backoffice, saas, indie, startup"/>
+	<meta name="description" content="Collect email from your landing page. The Email Signup Backoffice That You Need."/>
+	<meta name="language" content="EN">
+	<meta name="robots" content="index,follow" />
+	<meta name="author" content="Toche Camille">
+	<meta name="url" content="https://email-landing.page/">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@toshcamille" />
+	<meta name="twitter:creator" content="@toshcamille" />
+	<meta name="twitter:image" content="https://email-landing.page/images/preview.png"/>
+	<meta name="og:title" content="Email-Landing.page"/>
+	<meta name="og:type" content="site"/>
+	<meta name="og:url" content="https://email-landing.page/">
+	<meta name="og:image" content="https://email-landing.page/images/dashboard_trunc.png"/>
+	<meta name="og:site_name" content="Email-Landing.page"/>
+	<meta name="og:description" content="The Email Signup Backoffice That You Need."/>
+    <style type="text/css">
+    	body {
+    		font-family: 'Roboto', sans-serif;
+    	}
+    	.focus\:shadow-outline:focus {
+		    box-shadow: none!important;
+		}
+    	.title {
+			width: 480px;
+			text-align: center;
+			text-transform: uppercase;
+			letter-spacing: 4px;
+			line-height: 60px;	
+			font-family: 'Futura';
+			font-weight: 700;
+			font-size: 40px;
+		}
+
+		.first {
+			float: left;
+			font-size: 30px;
+			margin-left: 5px;
+		}
+
+		.second {
+			font-size: 90px;
+			float: left;
+		}
+
+		.third {
+			float: right;
+			margin-right: -10px;
+			font-size: 30px;
+		}
+		
+		@media screen and (max-width: 960px) {
+			.title {
+				margin-left: 1rem;
+				width: 350px;
+				letter-spacing: 4px;
+				font-size: 30px;
+				line-height: 40px;
+			}
+			
+			.first {
+				font-size: 20px;
+				margin-left: 2px; 
+			}
+			
+			.second {
+				font-size: 3rem;
+			}
+
+			.third {
+				font-size: 20px;
+				margin-right: 70px; 
+			}
+		}
+    </style>
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="mb-4 bg-gray-100" style="margin: 0 auto;">
+<body>
+	<div class="mt-8 lg:mt-28 w-full inline-flex flex-col lg:flex-row px-8 md:px-32 lg:px-48">
+		<div class="w-full lg:w-1/2">
+			<h1 class="title text-gray-800">
+		        <span class="first">email-</span><br>
+		        <span class="second">landing</span><br>
+		        <span class="third">.page</span><br>
+		            
+		        <p class="w-full capitalize tracking-wide text-left lg:text-center text-sm md:text-lg lg:text-lg text-gray-900 mb-2">
+		        	Collect email from your landing page.
+		        </p>
+		    </h1>
+		    <div class="w-full max-w-12 my-4 lg:mt-4 text-gray-700 font-normal tracking-wide text-lg" style="max-width: 600px;">
+                
+		        <p class="w-full underline capitalize tracking-wide text-left text-gray-800 mb-4">
+		        	The email signup backoffice that <span class="font-bold text-black">you</span> need.
+		        </p>
 
-    <h1 class="title">
-        <span class="first">email-</span><br>
-        <span class="twice">landing</span><br>
-        <span class="third">.page</span><br>
-            
-        <p class="w-full capitalize tracking-wide text-center text-sm text-gray-800">Collect email from your landing page.</p>
-    </h1>
-    
-    
-    <header class="border-t border-b border-gray-700 py-4 -mt-8">
-        <a href="#Features">Features</a>
-        <a href="#Pricing">Pricing</a>
-        <a href="#Documentation">Documentation</a>
-        <a href="#Dashboard">Dashboard</a>
-    </header>
-
-    <div class="inline-flex flex-col xs:flex-col sm:flex-col md:flex-col lg:flex-row items-center px-6">
-        <div class="w-2/3 xs:w-2/3 sm:w-2/3 md:w-2/3 lg:w-full tracking-wide text-left text-xl text-gray-800">
-            <p style="width: 18rem;">
-                The <span class="text-gray-900 font-normal underline">Most Simple email form</span> for your landing page.
-            </p>
-        </div>
-        <div class="w-full inline-flex mt-4 ml-32 flex-col items-center">
-            <div class="text-left w-full pb-2 text-lg font-normal text-gray-800">Start now</div>
-            <div class="inline-flex flex-row">
-                <input class="py-2 px-3 outline-none border-1 border-gray-400 text-gray-900 shadow rounded bg-white w-auto" placeholder="Your email address" id="email" type="text" data-campaign="5e07df4facb6f861dc3a07c2">
-                <div class="hover:bg-gray-800 bg-gray-700 text-white text-sm py-1 px-4 border border-gray-700 rounded ml-2 cursor-pointer outline-none select-none cursor-pointer" id="send">
-                    Send
+                <div class="inline-flex my-1 items-center w-full">
+                	<i class="text-gray-600 gg-play-list-check"></i> 
+                	<div class="ml-4">Easy integration, no coding skills required.</div>
                 </div>
+                <div class="inline-flex my-1 items-center w-full">
+                	<i class="text-gray-600 gg-website"></i> 
+                	<div class="ml-2">Manage multiple campaigns simply.</div>
+                </div>
+                <div class="inline-flex my-1 items-center w-full">
+                	<i class="text-gray-600 gg-mail"></i> 
+                	<div class="ml-3">Email Address Verification.</div>
+                </div>
+                <div class="inline-flex my-1 items-center w-full">
+                	<i class="text-gray-600 gg-chart ml-2"></i> 
+                	<div class="ml-3">Analytics.</div>
+                </div>
+                <div class="inline-flex my-1 items-center w-full">
+                	<i class="text-gray-600 gg-software-download"></i> 
+                	<div class="ml-3">Export.</div>
+                </div>
+                <div class="mt-4 lg:mt-8">Try it for <span class="font-bold text-gray-800">free</span>:</div>
             </div>
-        </div>
-    </div>
-
-    <div class="inline-flex flex-col items-center px-6 mt-8">
-        <div class="w-2/5 xs:w-2/5 sm:w-2/5 md:w-2/5 lg:w-full tracking-wide text-left text-xl text-gray-800">
-            <ul style="width: 18rem;">
-                <li class="list-disc md:ml-4">Multiple campaigns</li>
-                <li class="list-disc md:ml-4">Easy to integrate</li>
-                <li class="list-disc md:ml-4">Clean analytics</li>
-                <li class="list-disc md:ml-4">Export</li>
-                <li class="list-disc md:ml-4">Try for free</li>
-            </ul>
-        </div>
-    </div>
-    <script type="text/javascript" src="js/emailLandingPage.js"></script>
+		    <div class="w-full inline-flex flex-row lg:mt-2">
+                <input
+                	class="w-3/4 py-2 px-3 outline-none border-1 border-gray-300 text-gray-900 shadow rounded bg-white w-auto cursor-text"
+                	placeholder="Your email address"
+                	id="email"
+                	type="text"
+                	data-campaign="5e0e06ceacb6f8791b402df9"
+            	>
+                <div class="hover:bg-gray-800 bg-gray-700 text-white text-sm py-2 px-4 border border-gray-700 rounded ml-2 cursor-pointer outline-none select-none cursor-pointer" id="send">
+                    Register
+                </div>
+		    </div>
+		</div>
+		<img class="w-full my-4 lg:my-0 lg:w-1/2 h-full lg:text-right" src="images/dashboard_trunc.png">
+	</div>
+	
+	<div class="mt-8 lg:mt-28 w-full inline-flex flex-col items-center lg:flex-row px-8 md:px-32 lg:px-64">
+		<img class="w-full lg:my-0 lg:w-1/2 h-full lg:text-right" src="images/email.png">
+		<div class="w-full ml-6 lg:w-1/2">
+			<h1 class="text-gray-800 font-bold text-2xl lg:-mt-20 mb-2">Analytics</h1>
+			We provide a simple and clean analytics tools for your campaign.
+		</div>
+	</div>
+	
+	<div class="mt-8 lg:mt-28 w-full inline-flex flex-col-reverse items-center lg:flex-row px-8 md:px-32 lg:px-64">
+		<div class="w-full lg:w-1/2">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo			
+		</div>
+		<img class="w-full my-4 lg:my-0 lg:w-1/2 h-full lg:text-right" src="images/analytics.png">
+	</div>
+	
+	<script type="text/javascript" src="js/emailLandingPage.js"></script>
     <script type="text/javascript">
         // const callback = (email) => window.location.replace(`https://app.email-landing.page/register/${email}`);
         const callback = (email) => window.location.replace(`http://localhost:8080/register/${email}`);
@@ -60,7 +163,8 @@
             console.log(err)
         };
 
-        emailLandingPage(callback, error);
+        // emailLandingPage(callback, error);
+        emailLandingPage(null, null);
     </script>
 </body>
 </html>

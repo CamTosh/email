@@ -11,7 +11,6 @@ import datetime
 
 userRepository = UserRepository()
 
-
 @routes.route('/user', methods=['GET'])
 @jwt_required
 def user_info():
@@ -59,7 +58,6 @@ def user_update():
 	if not user:
 		return jsonify({"error": "User not exist"})
 	try:
-		print(str(request.json))
 		userRepository.updateUser(user['id'], request.json)
 		return jsonify(True)
 	except Exception as e:

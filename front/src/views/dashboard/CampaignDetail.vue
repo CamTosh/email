@@ -26,35 +26,21 @@
       </div>
     </div>
 
-    <!-- Embed -->
-    <div
+  <router-link :to='"/dashboard/campaign/" + campaign.id + "/connect"'
       v-if="campaign.id"
-      class="w-3/4 mt-8 inline-flex flex-col cursor-pointer items-center justify-center"
-      @click="openEmbed = !openEmbed"
+      class="w-1/2 mt-8 inline-flex flex-col cursor-pointer items-center justify-center"
     >
       <div
-        class="rounded bg-white w-full p-4 fill-current text-green-700 inline-flex shadow mb-4"
+        class="rounded bg-white w-full pb-1 fill-current text-green-700 justify-center inline-flex shadow mb-4"
       >
-        <svg
-          class="w-6 h-6 align-middle"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-        <div class="text-gray-900 ml-4">Code to embed on your website</div>
+        <div class="text-gray-900 pt-3 capitalize underline">
+          Connect your campaign with other tools
+        </div>
+        <svg 
+         class="w-12 h-12 ml-2 align-middle -mt-1"
+         fill="#2d3748" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" x="0px" y="0px" viewBox="0 0 100 100"><g transform="translate(0,-952.36218)"><path style="text-indent:0;text-transform:none;direction:ltr;block-progression:tb;baseline-shift:baseline;color:#000000;enable-background:accumulate;" d="m 84.007802,977.36223 c -11.722922,4.94412 -22.989788,9.95212 -32.474795,14.27871 -0.674469,0.56468 -0.895217,1.47636 -0.510095,2.30733 l 7.923189,17.35513 c 0.474272,0.9909 1.753158,1.3972 2.686394,1.0367 l 31.216637,-13.81061 c 0.84824,-0.34926 1.45857,-1.54839 0.98614,-2.7086 -2.61765,-5.77694 -5.29933,-11.5408 -7.88917,-17.32171 -0.3651,-0.718 -1.15498,-1.14381 -1.9383,-1.13695 z m 0.13603,1.9395 c 2.7833,6.00273 5.5524,12.22585 7.95706,17.38859 -10.83858,4.95318 -22.015094,9.80938 -31.352594,13.84398 L 52.82518,993.24604 c 6.447862,0.86026 12.898488,1.69997 19.348866,2.54141 0.349122,0.0416 0.715571,-0.11859 0.918141,-0.40128 3.710415,-5.34388 7.380245,-10.71463 11.051645,-16.08444 z m -3.26448,1.37102 c -3.02794,4.37205 -6.034893,8.75808 -9.045357,13.14176 -5.305678,-0.69555 -10.610114,-1.40036 -15.914339,-2.10669 8.317772,-3.68302 16.640646,-7.35485 24.959696,-11.03507 z" fill="#2d3748" fill-opacity="1" fill-rule="evenodd" stroke="none" marker="none" visibility="visible" display="inline" overflow="visible"></path><path style="text-indent:0;text-transform:none;direction:ltr;block-progression:tb;baseline-shift:baseline;color:#000000;enable-background:accumulate;" d="m 40.873074,995.25386 -28.956223,12.20884 c -1.271481,0.7495 -0.2368,2.1657 0.771129,1.7702 l 28.956259,-12.20885 c 1.16054,-0.55594 0.291933,-2.12115 -0.771165,-1.77019 z" fill="#2d3748" fill-opacity="1" fill-rule="evenodd" stroke="none" marker="none" visibility="visible" display="inline" overflow="visible"></path><path style="text-indent:0;text-transform:none;direction:ltr;block-progression:tb;baseline-shift:baseline;color:#000000;enable-background:accumulate;" d="m 22.635673,1013.188 -16.1168029,6.7869 c -1.111393,0.5698 -0.24059,2.0641 0.771166,1.7702 l 16.1167669,-6.7869 c 1.211527,-0.5061 0.206504,-2.1873 -0.77113,-1.7702 z" fill="#2d3748" fill-opacity="1" fill-rule="evenodd" stroke="none" marker="none" visibility="visible" display="inline" overflow="visible"></path><path style="text-indent:0;text-transform:none;direction:ltr;block-progression:tb;baseline-shift:baseline;color:#000000;enable-background:accumulate;" d="m 49.856845,1014.4772 -26.295802,11.0714 c -1.288488,0.6324 -0.287823,2.0821 0.77113,1.7702 l 26.295802,-11.0715 c 1.126524,-0.5228 0.1215,-2.0535 -0.77113,-1.7701 z" fill="#2d3748" fill-opacity="1" fill-rule="evenodd" stroke="none" marker="none" visibility="visible" display="inline" overflow="visible"></path></g></svg>
       </div>
-      <div class="w-full" v-if="openEmbed">
-        <Embed :campaignId="campaign.id" />
-      </div>
-    </div>
+    </router-link>
 
     <!-- Delete confirmation -->
     <div v-if="wantDelete" class="w-2/4 flex items-center my-4 justify-center">
@@ -88,7 +74,7 @@
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
           <div
-            class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-700"
+            class="w-full inline-flex justify-between px-3 mb-2 font-medium text-gray-700"
           >
             <div class="px-2 mb-2">Info</div>
             <div
@@ -173,7 +159,7 @@
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
           <div
-            class="w-full inline-flex justify-between px-3 font-bold text-gray-600 mb-2"
+            class="w-full inline-flex justify-between px-3 font-medium text-gray-600 mb-2"
           >
             <div class="">Emails</div>
             <download-csv
@@ -188,8 +174,11 @@
           class="w-full"
           :columns="columns"
           :rows="campaign.emails"
+          max-height="400px"
           :search-options="searchOptions"
           :totalRows='campaign.emails.length'
+          :fixed-header="true"
+          :line-numbers="true"
           :pagination-options="{
             enabled: true,
             mode: 'records',
@@ -213,7 +202,6 @@
 
 <script>
 import Header from "@/components/Header.vue";
-import Embed from "@/components/Embed.vue";
 import axios from "axios";
 import moment from "moment";
 
@@ -225,8 +213,7 @@ Array.prototype.unique = function() {
 
 export default {
   components: {
-    Header,
-    Embed
+    Header
   },
   data() {
     return {
@@ -239,17 +226,14 @@ export default {
       },
       columns: [
         {
-          label: "id",
-          field: "id",
-          type: "number"
-        },
-        {
           label: "Email",
-          field: "email"
+          field: "email",
+          filterable: true,
         },
         {
           label: "Created On",
-          field: "created_at"
+          field: "created_at",
+          filterable: true,
           // TODO fix date format
           // type: 'date',
           // dateInputFormat: 'dddd DOM YYYY hh:mm:ss',
@@ -259,7 +243,6 @@ export default {
       api: null,
       token: null,
       campaign: {},
-      openEmbed: false,
       needUpgrade: false,
       datasets: null,
       filterBy: 'month', // day, month, year, all
@@ -270,7 +253,7 @@ export default {
       },
       searchOptions: {
         enabled: true,
-        trigger: '',
+        trigger: 'enter', // enter || ''
         skipDiacritics: true,
         placeholder: 'Search Email'
       },
@@ -278,6 +261,15 @@ export default {
   },
   mounted() {
     this.user = this.$store.getters.user;
+    
+    if (this.user.plan.id != 'free') {
+      this.columns.push({
+        label: 'Valid',
+        field: 'is_valid',
+        filterable: true,
+      })
+    }
+
     this.api = this.$store.getters.api;
     this.token = this.$store.getters.token;
     
@@ -298,12 +290,20 @@ export default {
       this.campaign = data;
       this.searchOptions.trigger = this.campaign.emails.length >= 1000 ? 'enter' : '' 
 
-      let i = 1;
-      this.campaign.emails = this.campaign.emails.map(cmp => {
-        cmp.moment = moment(new Date(cmp.created_at));
-        cmp.created_at = cmp.moment.format("dddd MMM YYYY hh:mm:ss");
-        cmp.id = i++;
-        return cmp;
+      this.campaign.emails = this.campaign.emails.map(email => {
+        email.moment = moment(new Date(email.created_at));
+        email.created_at = email.moment.format("dddd MMM YYYY hh:mm:ss");
+        
+        if (email.validation) {
+          email.is_valid = email.validation.valid
+          if (email.validation.status == null) {
+            email.is_valid = 'unknown'
+          }
+          
+          delete email.validation
+        }
+        
+        return email;
       });
 
       if (this.campaign.total > this.campaign.emails.length) {
@@ -389,3 +389,14 @@ export default {
   }
 };
 </script>
+
+<style>
+  .vgt-table th.line-numbers:first-child {
+    width: 35px!important;
+  }
+  @media screen and (max-width: 960px) {
+    .vgt-table th.line-numbers:first-child {
+      width: 45px!important;
+    }
+  }
+</style>

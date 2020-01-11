@@ -20,12 +20,18 @@ campaignRepository = CampaignRepository()
 
 plans = {
 	'indie': {
-		'stripe': 'plan_GSJSSCSnn80JRK',
+		'stripe': {
+			'monthly': 'plan_GSJSSCSnn80JRK',
+			'annualy': 'plan_GWMebS1oanaat3',
+		},
 		'campaigns': 5,
 		'emailsPerCampaign': 5000
 	},
 	'startup': {
-		'stripe': 'plan_GSJS49XeJs5fh0',
+		'stripe': {
+			'monthly': 'plan_GSJS49XeJs5fh0',
+			'annualy': 'plan_GWMdPRSpaJaGPx',
+		},
 		'campaigns': 10,
 		'emailsPerCampaign': 10000
 	}
@@ -42,6 +48,10 @@ def charge():
 
 	if not data['stripeToken']:
 		return jsonify({'error': 'bad stripe token'})
+
+	period = data['period']
+	if period not in ['monthly', 'annualy']:
+		return jsonify({'error': 'bad period'})
 
 	user = userRepository.getUser(get_jwt_identity())
 	if user == False:
@@ -80,11 +90,10 @@ def charge():
 		stripe.Subscription.delete(currentSubscription.id)	
 	try:
 		# Create subscription for plan
-
 		subscription = stripe.Subscription.create(
 		  customer=customerId,
 		  items=[{
-		  	"plan": plans[plan]['stripe']
+		  	"plan": plans[plan]['stripe'][period]
 		  }],
 		)
 
@@ -101,6 +110,7 @@ def charge():
 		invoice.append({
 			'created_at': datetime.now(),
 			'plan': plan,
+			'period': period,
 			'price': subscription.plan.amount,
 			'currency': subscription.plan.currency,
 			'id': subscription.id,
@@ -111,13 +121,14 @@ def charge():
 		userRepository.update(user['id'], {
 			'plan': {
 				'id': plan,
+				'period': period,
 				'campaigns': plans[plan]['campaigns'],
 				'emailsPerCampaign': plans[plan]['emailsPerCampaign']
 			},
 			'invoice': invoice
 		})
 
-		return jsonify(True)
+		return jsonify(invoice)
 	except Exception as e:
 		print(str(e))
 		return jsonify({'error': 'stripe error'})

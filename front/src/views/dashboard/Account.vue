@@ -6,7 +6,7 @@
     <div class="w-3/4 flex items-center mt-8 justify-center">
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
-          <div class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-600">
+          <div class="w-full inline-flex justify-between px-3 mb-2 font-medium text-gray-600">
             <div class=" text-gray-700">Presonal Information</div>
           </div>
         </div>
@@ -58,24 +58,53 @@
     <div class="w-3/4 flex items-center mt-8 justify-center">
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
-          <div class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-600">
+          <div class="w-full inline-flex justify-between px-3 mb-2 font-medium text-gray-600">
             <div class=" text-gray-700">Billing</div>
           </div>
         </div>
 
-        <div class="w-full py-3 inline-flex md:justify-center items-center lg:justify-around flex-col md:flex-row lg:flex-row px-2">
+        <div class="w-full inline-flex text-center justify-center">
+          <div class="w-1/2 mt-2 text-center">
+            <div class="inline-flex p-2 w-full px-3 py-2 text-sm border rounded shadow items-center text-gray-700 rounded-lg w-full justify-around p-2">
+              <div
+                :class='{"bg-gray-800": selectedPeriod === "monthly"}'
+                @click='selectedPeriod = "monthly"'
+                class="inline-flex cursor-pointer bg-gray-700 text-white rounded-full h-6 px-3 py-4 justify-center items-center"
+              >
+                Monthly
+              </div>
+              <div
+                :class='{"bg-gray-800": selectedPeriod === "annualy"}'
+                @click='selectedPeriod = "annualy"'
+                class="inline-flex cursor-pointer bg-gray-700 text-white rounded-full h-6 px-3 py-4 justify-center items-center"
+              >
+                Annualy (save 20%)
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <div class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow-md p-6" v-for='plan in plans' :class='{"shadow-xl": selectedPlan == plan.id}'>
+        <div class="w-full py-3 inline-flex md:justify-center items-center lg:justify-around flex-col md:flex-row lg:flex-row px-2">
+          <div
+            class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow-md p-6"
+            v-for='plan in plans.filter((p) => p.period === selectedPeriod)'
+            :class='{"shadow-xl": selectedPlan == plan.id}'
+          >
             <div class="w-full inline-flex items-center justify-center lg:justify-around flex-col md:flex-row lg:flex-row">
               <div class="w-full text-center mt-2 lg:mt-0 lg:text-left lg:left-0">
                 <span class="bg-gray-600 text-gray-100 rounded-full h-6 px-3 py-1 capitalize">{{ plan.id }}</span>
               </div>
-              <div class="w-full text-center mt-2 lg:mt-0 lg:right-0 lg:text-right" v-if='storePlan == plan.id'>
+              <div
+                class="w-full text-center mt-2 lg:mt-0 lg:right-0 lg:text-right"
+                v-if='storePlan == plan.id && plan.period == period'
+              >
                 <span class="bg-gray-800 text-white rounded-full h-6 px-3 py-1">Current Plan</span> 
               </div>
             </div>
             <h2 class="text-4xl text-gray-900">
-              {{ plan.price }} € <span class="text-lg text-gray-600">/month</span>
+              {{ plan.price }} € 
+              <span v-if='plan.period === "monthly"' class="text-lg text-gray-600">/month</span>
+              <span v-else class="text-lg text-gray-600">/year</span>
             </h2>
             <div class="text-gray-600">{{ plan.description }}</div>
             <div class="inline-flex flex-col mt-2">
@@ -87,7 +116,7 @@
               </div>
             </div>
             <div class="w-full mt-2 justify-center">
-              <div @click='selectedPlan = plan.id' class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" :class='{"bg-gray-800": selectedPlan == plan.id}'>
+              <div @click='selectPlan(plan)' class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" :class='{"bg-gray-800": selectedPlan == plan.id && selectedPeriod == plan.period}'>
                 Get started
               </div>
             </div>
@@ -116,7 +145,7 @@
     <div class="w-3/4 flex items-center mt-8 justify-center mb-8">
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
-          <div class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-600">
+          <div class="w-full inline-flex justify-between px-3 mb-2 font-medium text-gray-600">
             <div class=" text-gray-700">Invoices</div>
           </div>
         </div>
@@ -125,7 +154,7 @@
             <div class="w-full inline-flex justify-around mr-4">
               <div class="w-1/2 h-full">
                 <div class="text-gray-900 font-medium text-lg my-2">
-                  Plan: <span class="text-gray-800 font-normal capitalize"> {{ invoice.plan }}</span>
+                  Plan: <span class="text-gray-800 font-normal capitalize"> {{ invoice.plan }} ({{ invoice.period }})</span>
                 </div>
                 <div class="text-gray-900 font-medium text-lg my-2">
                   Start: <span class="text-gray-800 font-normal"> {{ parseDate(invoice.start) }}</span> 
@@ -133,7 +162,7 @@
               </div>
               <div class="w-1/2 h-full">
                 <div class="text-gray-900 font-medium text-lg my-2">
-                  Price: <span class="text-gray-800 font-normal"> {{ Math.round(invoice.price) / 100 }} {{ invoice.currency }}</span>
+                  Price: <span class="text-gray-800 font-normal"> {{ Math.round(invoice.price) / 100 }} €</span>
                 </div>
                 <div class="text-gray-900 font-medium text-lg my-2">
                   End: <span class="text-gray-800 font-normal"> {{ parseDate(invoice.end) }}</span> 
@@ -161,8 +190,7 @@ import moment from "moment";
 
 import { Card, createToken } from 'vue-stripe-elements-plus'
  
-// pk_test_RWLO2o36Z9Jc9BWJRpH12b8000RU1kHkUS
-export default {
+ export default {
   components: {
     Header,
     Info,
@@ -181,8 +209,10 @@ export default {
       firstName: '',
       lastName: '',
       invoices: [],
+      period: null,
       selectedPlan: null,
       storePlan: null,
+      selectedPeriod: 'monthly',
       complete: false,
       pending: false,
       stripeOptions: {
@@ -192,10 +222,12 @@ export default {
         {
           id: 'indie',
           price: '5',
-          description: 'Great for building personal project',
+          description: 'Great for personal project',
+          period: 'monthly',
           features: [
             '5 Campaigns',
             '1 000 Emails Per Campaign',
+            'Email validation',
             'Statistics',
             'Export'
           ]
@@ -203,10 +235,38 @@ export default {
         {
           id: 'startup',
           price: '10',
-          description: 'Great for building biggest project',
+          description: 'Great for biggest project',
+          period: 'monthly',
           features: [
             '10 Campaigns',
             '10 000 Emails Per Campaign',
+            'Email validation',
+            'Statistics',
+            'Export'
+          ]
+        },
+        {
+          id: 'indie',
+          price: '50',
+          description: 'Great for building personal project',
+          period: 'annualy',
+          features: [
+            '5 Campaigns',
+            '1 000 Emails Per Campaign',
+            'Email validation',
+            'Statistics',
+            'Export'
+          ]
+        },
+        {
+          id: 'startup',
+          price: '100',
+          description: 'Great for building biggest project',
+          period: 'annualy',
+          features: [
+            '10 Campaigns',
+            '10 000 Emails Per Campaign',
+            'Email validation',
             'Statistics',
             'Export'
           ]
@@ -220,7 +280,9 @@ export default {
     this.firstName = this.$store.getters.user.firstName
     this.lastName = this.$store.getters.user.lastName
     this.invoices = this.$store.getters.user.invoice
-    
+    this.period = this.$store.getters.user.plan.period
+    this.selectedPeriod = this.period ? this.period : this.selectedPeriod;
+
     this.storePlan = this.$store.getters.user.plan.id
     this.selectedPlan = this.storePlan === 'free' ? null : this.storePlan
 
@@ -236,7 +298,7 @@ export default {
       return now >= invoice.start && now <= invoice.end;
     },
     async pay() {
-      if (this.selectedPlan && this.selectedPlan !== this.storePlan && !this.pending) {
+      if (this.selectedPlan && this.selectedPlan !== this.storePlan && this.selectedPeriod && !this.pending) {
         this.pending = true;
         this.billingError = false
         const { token } = await createToken();
@@ -247,7 +309,8 @@ export default {
           method: "POST",
           data: {
             stripeToken: token.id,
-            plan: this.selectedPlan
+            plan: this.selectedPlan,
+            period: this.selectedPeriod
           }
         });
         const data = response.data
@@ -258,6 +321,7 @@ export default {
         } 
         if (data) {
           this.info = 'Account Upgrade!'
+          this.invoices = data
         }
       } else {
         this.error = 'Please select a billing plan';
@@ -282,6 +346,10 @@ export default {
         } else {
           this.error = 'Error on account update'
         }
+    },
+    selectPlan(plan) {
+      this.selectedPlan = plan.id;
+      this.selectedPeriod = plan.period;
     }
   }
 };

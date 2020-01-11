@@ -11,7 +11,7 @@ from flask_jwt_extended import (
 userRepository = UserRepository()
 campaignRepository = CampaignRepository()
 from datetime import datetime
-
+from services import Email
 
 @routes.route('/campaign', methods=['GET'])
 @jwt_required
@@ -27,10 +27,15 @@ def campaign_info(id):
     user = userRepository.getUser(get_jwt_identity())
     if user == False:
         return jsonify({"error": "user doesn't exist"})
+    
     campaign = campaignRepository.getCampaign(user['id'], id)
 
     campaign['total'] = len(campaign['emails'])
     campaign['emails'] = campaign['emails'][0:user['plan']['emailsPerCampaign']]
+
+    if user['plan']['id'] == 'free':
+        for email in campaigns['emails']:
+            email.pop('validation')
 
     return jsonify(campaign)
 
@@ -68,7 +73,7 @@ def add_email():
     campaign = campaignRepository.get(request.json['campaign'])
     if campaign == False:
         return jsonify({"error": "campaign not exist"})
-    
+
     origin = str(request.headers.get('Origin'))
     if origin != campaign['site']:
         print(str({"origin": origin, "site": campaign['site']}))
@@ -78,7 +83,22 @@ def add_email():
     if email in [e['email'] for e in campaign['emails']]:
         return jsonify({'error': 'already added'})
 
-    campaign['emails'].append({"email": email, "created_at": datetime.now()})
+    emailService = Email()
+
+    validation = {}
+
+    try:
+        print('Validate email {}'.format(email))
+        validation = emailService.validateEmail(email)
+    except Exception as e:
+        print('Error on validate email {}'.format(email))
+        print(e)
+
+    campaign['emails'].append({
+        "email": email,
+        "created_at": datetime.now(),
+        "validation": validation
+    })
     res = campaignRepository.update(str(campaign['_id']), {
         "emails": campaign['emails']
     })

@@ -8,6 +8,7 @@ import Register from "./components/Register.vue";
 
 import Dashboard from "./views/Dashboard.vue";
 import Detail from "./views/dashboard/CampaignDetail.vue";
+import Connect from "./views/dashboard/CampaignConnect.vue";
 import Create from "./views/dashboard/CampaignCreate.vue";
 
 import Account from "./views/dashboard/Account.vue";
@@ -57,6 +58,14 @@ let router = new Router({
       path: "/dashboard/campaign/:id",
       name: "InfoCampaign",
       component: Detail,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/dashboard/campaign/:id/connect",
+      name: "ConnectCampaign",
+      component: Connect,
       meta: {
         requiresAuth: true
       }

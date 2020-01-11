@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div v-if="user.campaigns && user.plan.campaigns == user.campaigns.length" class="w-3/4 flex items-center mt-4 justify-center">
+    <div v-if="user.campaigns.length && user.plan.campaigns == user.campaigns.length" class="w-3/4 flex items-center mt-4 justify-center">
       <div class="w-auto bg-white pt-4 rounded shadow-xl">
         <div class="w-auto border-b border-gray-200">
           <div class="w-auto inline-flex px-3 mb-2">
@@ -39,7 +39,7 @@
     <div class="w-3/4 flex items-center mt-8 justify-center">
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
-          <div class="w-full inline-flex justify-between px-3 mb-2 font-bold text-gray-600">
+          <div class="w-full inline-flex justify-between px-3 mb-2 font-medium text-gray-600">
             <div class=" text-gray-700">New Campaign</div>
           </div>
         </div>
@@ -109,11 +109,17 @@
       return {
         api: null,
         token: null,
-        site: null,
-        name: null,
+        site: '',
+        name: '',
         campaignId: null,
         error: null,
-        user: {plan: {id: ''}},
+        user: {
+          plan: {
+            id: '',
+            campaigns: null
+          },
+          campaigns: []
+        },
       }
     },
     mounted() {
