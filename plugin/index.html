@@ -32,6 +32,19 @@
 	</style>
 
 	<script type="text/javascript">
+		const capitalizeFLetter = (text) => text[0].toUpperCase() +  text.slice(1); 
+		const referrers = ['google', 'bing', 'yahoo', 'facebook', 'twitter', 'indiehackers', 'producthunt'];
+
+		const findReferrer = () => {
+		  referrers.forEach((ref) => {
+			  if (document.referrer.search(`https?://(.*)${ref}..([^/?]*)`) === 0) {
+			    return capitalizeFLettert(ref);
+			  }
+		  });
+
+		  return document.referrer || null;
+		};
+
 		document.getElementById('send').addEventListener('click', () => {
 			const $email = document.getElementById('email');
 			const campaign = $email.dataset.campaign;
@@ -49,6 +62,15 @@
 					body: JSON.stringify({
 						email,
 						campaign,
+						metadata: {
+							referrer: findReferrer(),
+							url: document.URL,
+							navigator: {
+								language: navigator.language,
+								userAgent: navigator.userAgent,
+								isMobile: navigator.userAgent.toLowerCase().includes('mobile');
+							}
+						}
 					})
 				})
 				.then(response => response.json())

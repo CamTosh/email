@@ -6,6 +6,7 @@
 
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/htmlmixed/htmlmixed.js'
 import 'codemirror/theme/material.css'
 
 export default {
@@ -22,7 +23,7 @@ export default {
         theme: 'material',
         lineNumbers: true,
         htmlMode: true,
-        mode: 'html',
+        mode: 'htmlmixed',
         tabSize: 4,
         line: true,
       },

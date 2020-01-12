@@ -205,6 +205,8 @@ import Header from "@/components/Header.vue";
 import axios from "axios";
 import moment from "moment";
 
+import clusterize from "vue-clusterize"
+
 Array.prototype.unique = function() {
   return this.filter(function(value, index, self) {
     return self.indexOf(value) === index;
@@ -213,7 +215,8 @@ Array.prototype.unique = function() {
 
 export default {
   components: {
-    Header
+    Header,
+    "clusterize": clusterize
   },
   data() {
     return {

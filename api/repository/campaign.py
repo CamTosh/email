@@ -37,3 +37,12 @@ class CampaignRepository(MongoRepository):
             return len(mongo.db[self.collection].find_one({'site': site})) > 0
         except Exception as e:
             return False
+
+    def getEmail(self, userId, cmpgnId, fromPager, perPage):
+        
+        campaign = mongo.db[self.collection].find_one({'_id': ObjectId(cmpgnId)})
+        if campaign['creator'] != userId:
+            return None
+
+        return mongo.db[self.collection]\
+            .find_one({'_id': ObjectId(cmpgnId), 'creator': userId}, {'emails': {'$slice': [fromPager, perPage]}})

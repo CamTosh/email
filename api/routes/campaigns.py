@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from . import routes
+from . import routes, pager, Pager
 from repository import UserRepository, CampaignRepository
 from app import jsonschema, jwt
 from bson import ObjectId
@@ -13,6 +13,8 @@ campaignRepository = CampaignRepository()
 from datetime import datetime
 from services import Email
 
+
+# TODO : externalize for API
 @routes.route('/campaign', methods=['GET'])
 @jwt_required
 def campaign_list():
@@ -21,6 +23,7 @@ def campaign_list():
     return jsonify({'campaigns': campaigns})
 
 
+# TODO : externalize for API
 @routes.route('/campaign/<id>', methods=['GET'])
 @jwt_required
 def campaign_info(id):
@@ -38,6 +41,27 @@ def campaign_info(id):
             email.pop('validation')
 
     return jsonify(campaign)
+
+
+# TODO : externalize for API
+@routes.route('/campaign/<id>/emails', methods=['GET'])
+@jwt_required
+def campaign_emails(id):
+    user = userRepository.getUser(get_jwt_identity())
+    if user == False:
+        return jsonify({"error": "user doesn't exist"})
+    
+    pager = Pager(request)
+    fromPager = pager.perPage * pager.page
+    if pager.page > 0:
+        fromPager = fromPager * -1
+    
+    campaign = campaignRepository.getEmail('5e0e06ceacb6f8791b402df9', id, fromPager, pager.perPage)
+    
+    if campaign == None:
+        return jsonify({"error": "camapign doesn't exist"})
+
+    return jsonify(campaign['emails'])
 
 
 @routes.route('/campaign', methods=['POST'])
@@ -105,6 +129,7 @@ def add_email():
 
     return jsonify(True)
 
+
 @routes.route('/campaign/<id>', methods=['DELETE'])
 @jwt_required
 def campaign_delete(id):
@@ -115,7 +140,7 @@ def campaign_delete(id):
     campaign = campaignRepository.get(ObjectId(id))
 
     if campaign == False:
-        return jsonify({"error": "campaign don't exist"})
+        return jsonify({"error": "campaign doesn't exist"})
 
     if campaign['creator'] == creator['id']:
         campaignRepository.remove(id)

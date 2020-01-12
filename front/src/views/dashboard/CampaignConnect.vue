@@ -50,7 +50,7 @@
         <div class="text-gray-900 ml-4">Code to embed on your website</div>
       </div>
       <div class="w-full">
-        <Embed :campaignId="campaign.id" />
+        <Embed :campaignId="campaignId" />
       </div>
     </div>
 
@@ -114,7 +114,6 @@ import Header from "@/components/Header.vue";
 import Embed from "@/components/Embed.vue";
 import axios from "axios";
 
-
 export default {
   components: {
     Header,
@@ -124,16 +123,15 @@ export default {
     return {
       api: null,
       token: null,
-      campaign: {},
+      campaignId: null,
       needUpgrade: false,
     };
   },
   mounted() {
-    console.log(this.$route.params.id)
     this.user = this.$store.getters.user;
     this.api = this.$store.getters.api;
     this.token = this.$store.getters.token;
-
+    this.campaignId = this.$route.params.id
     if (this.user.plan.id === 'free') {
       this.needUpgrade = true;
     }
@@ -142,7 +140,7 @@ export default {
     async apiCall() {
       axios.defaults.headers.common["Authorization"] = this.token;
       const response = await axios({
-        url: `${this.api}/campaign/`,
+        url: `${this.api}/api`,
         method: "GET"
       });
       const data = response.data;
