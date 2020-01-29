@@ -108,7 +108,6 @@ def add_email():
         return jsonify({'error': 'already added'})
 
     emailService = Email()
-
     validation = {}
 
     try:
@@ -121,7 +120,8 @@ def add_email():
     campaign['emails'].append({
         "email": email,
         "created_at": datetime.now(),
-        "validation": validation
+        "validation": validation,
+        "metadata": request.json['metadata']
     })
     res = campaignRepository.update(str(campaign['_id']), {
         "emails": campaign['emails']

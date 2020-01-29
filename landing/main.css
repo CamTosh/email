@@ -1,0 +1,57 @@
+body {
+	font-family: 'Roboto', sans-serif;
+}
+.focus\:shadow-outline:focus {
+	box-shadow: none!important;
+}
+.title {
+	width: 480px;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	line-height: 60px;
+	font-family: 'Futura';
+	font-weight: 700;
+	font-size: 40px;
+}
+.first {
+	float: left;
+	font-size: 30px;
+	margin-left: 5px;
+}
+.second {
+	font-size: 90px;
+	float: left;
+}
+.third {
+	float: right;
+	margin-right: -10px;
+	font-size: 30px;
+}
+@media screen and (min-width: 1441px) {
+	#main {
+		padding-right: 20rem;
+		padding-left: 20rem
+	}
+}
+@media screen and (max-width: 1439px) {
+	.title {
+		margin: 0 auto;
+		margin-left: 8%;
+		width: 350px;
+		letter-spacing: 4px;
+		font-size: 30px;
+		line-height: 40px;
+	}
+	.first {
+		font-size: 20px;
+		margin-left: 2px;
+	}
+	.second {
+		font-size: 3rem;
+	}
+	.third {
+		font-size: 20px;
+		margin-right: 70px;
+	}
+}

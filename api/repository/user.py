@@ -31,6 +31,13 @@ class UserRepository(MongoRepository):
         except Exception as e:
             return False
         
+    def isApiKeyExist(self, apiKey):
+        try:
+            return len(mongo.db[self.collection].find_one({'api_key': apiKey})) > 0
+        except Exception as e:
+            return False
+        
+
     def getUserWithMail(self, mail):
         user = mongo.db[self.collection].find_one({'mail': mail})
         return user

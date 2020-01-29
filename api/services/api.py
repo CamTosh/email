@@ -1,7 +1,9 @@
+import os
+from base64 import b64encode
 
-class Api(object):
+class ApiService(object):
 	
-	def createApiKey(user):
+	def createApiKey(self, user):
 		print('Create api key for: [{}][{}]'.format(user['mail'], user['id']))
 		random_bytes = os.urandom(24)
 		apiKey = str(b64encode(random_bytes).decode('utf-8'))

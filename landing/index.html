@@ -56,7 +56,14 @@
 			font-size: 30px;
 		}
 		
-		@media screen and (max-width: 960px) {
+		@media screen and (min-width: 1441px) {
+			#main {
+				padding-right: 20rem;
+				padding-left: 20rem
+			}
+		}
+
+		@media screen and (max-width: 1440px) {
 			.title {
 				margin-left: 1rem;
 				width: 350px;
@@ -83,7 +90,7 @@
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-	<div class="mt-8 lg:mt-28 w-full inline-flex flex-col lg:flex-row px-8 md:px-32 lg:px-48">
+	<div class="mt-8 lg:mt-28 w-full inline-flex flex-col lg:flex-row px-8 md:px-32 lg:px-32" id="main">
 		<div class="w-full lg:w-1/2">
 			<h1 class="title text-gray-800">
 		        <span class="first">email-</span><br>
@@ -137,20 +144,30 @@
 		</div>
 		<img class="w-full my-4 lg:my-0 lg:w-1/2 h-full lg:text-right" src="images/dashboard_trunc.png">
 	</div>
+    <div class="w-full bg-gray-100 absolute shadow-lg h-32 mt-48" style="z-index: -10; padding-top: 18rem; transform: skewY(-5deg); transform-origin: top left;"></div>
 	
 	<div class="mt-8 lg:mt-28 w-full inline-flex flex-col items-center lg:flex-row px-8 md:px-32 lg:px-64">
-		<img class="w-full lg:my-0 lg:w-1/2 h-full lg:text-right" src="images/email.png">
-		<div class="w-full ml-6 lg:w-1/2">
-			<h1 class="text-gray-800 font-bold text-2xl lg:-mt-20 mb-2">Analytics</h1>
-			We provide a simple and clean analytics tools for your campaign.
+		<img class="w-full lg:my-0 mr-1 lg:w-1/2 h-full" src="images/email.png">
+		<div class="w-full ml-12 sm:mt-8 lg:w-1/2 lg:-mt-5 rounded-lg bg-white shadow-xl px-6 py-4">
+			<h1 class="text-gray-800 font-bold text-2xl mb-2">Emails</h1>
+			<div class="inline-flex flex-col leading-relaxed">
+				<p>Powerfull Search</p>
+				<p>Intuitive Filter</p>
+				<p>CSV Export</p>
+				<p>Email address verification</p>
+			</div>
 		</div>
 	</div>
 	
-	<div class="mt-8 lg:mt-28 w-full inline-flex flex-col-reverse items-center lg:flex-row px-8 md:px-32 lg:px-64">
-		<div class="w-full lg:w-1/2">
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo			
+	<div class="mt-24 mb-10 lg:mt-2 w-full inline-flex flex-col-reverse items-center lg:flex-row px-8 md:px-32 lg:px-64">
+		<div class="w-full mt-4 mr-12 sm:mt-8 lg:w-1/2 rounded-lg bg-white shadow-xl px-6 py-4">
+			<h1 class="text-gray-800 font-bold text-2xl mb-2">Analytics</h1>
+			<div class="inline-flex flex-col leading-relaxed">
+				<p>We provide a simple and clean analytics tools for your campaign.</p>
+				<p>Referer</p>
+				<p>Browser (User Agent)</p>
+				<p>Mobile</p>
+			</div>
 		</div>
 		<img class="w-full my-4 lg:my-0 lg:w-1/2 h-full lg:text-right" src="images/analytics.png">
 	</div>

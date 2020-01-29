@@ -45,24 +45,25 @@
     <!-- Delete confirmation -->
     <div v-if="wantDelete" class="w-2/4 flex items-center my-4 justify-center">
       <div class="w-full bg-white py-4 rounded shadow">
-        <div class="w-full inline-flex flex-col px-3 mb-2">
-          <div class="font-bold text-gray-700 pb-1 ml-4 mb-4">
-            Are you sure ?
+          <div class="w-full border-b border-gray-200 inline-flex justify-between px-3 font-bold text-gray-700">
+            <div class="px-2 mb-2">Are you sure ?</div>
+         </div>
+        <div class="w-full inline-flex justify-between flex-row px-3 items-center mt-2">
+          <div class="w-1/2 pl-2">
+            All emails will be <u>permanently</u> deleted.
           </div>
-          <div
-            class="w-full text-center inline-flex flex-row justify-between mt-2 px-16"
-          >
+          <div class="w-1/2 inline-flex justify-center text-center">
             <div
-              class="w-16 hover:bg-gray-800 bg-gray-700 text-white text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none"
+              class="w-16 hover:bg-gray-800 bg-gray-700 text-white text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none mr-4"
               @click="wantDelete = !wantDelete"
             >
-              No
+              Cancel
             </div>
             <div
               class="w-16 hover:bg-red-600 bg-red-500 text-white text-sm py-1 px-2 border border-red-500 rounded cursor-pointer outline-none"
               @click="deleteCampaign()"
             >
-              Yes
+              Delete
             </div>
           </div>
         </div>
@@ -112,7 +113,7 @@
 
     <!-- Chart -->
     <div
-      v-if="campaign"
+      v-if="campaign && datasets"
       class="w-3/4 flex items-center mt-8 justify-center"
     >
       <div class="w-full bg-white pt-4 rounded shadow">
@@ -120,11 +121,11 @@
           <div
             class="w-full border-b border-gray-200 inline-flex justify-between px-3 font-bold text-gray-700"
           >
-            <div class="px-2 mb-2">Emails of this {{ filterBy }}</div>
+            <div class="px-2 mb-2">Emails of this {{ filterBy == 'all' ? 'campaign' : filterBy }}</div>
             <div class="px-2 mb-2 inline-flex flex-row justify-between">
               <div
                 class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none mr-2"
-                v-for='filter in ["day", "month", "year", "all"]'
+                v-for='filter in ["month", "year", "all"]'
                 @click="changeFilter(filter)"
               >
                 {{ filter }}
@@ -174,7 +175,7 @@
           class="w-full"
           :columns="columns"
           :rows="campaign.emails"
-          max-height="400px"
+          max-height="600px"
           :search-options="searchOptions"
           :totalRows='campaign.emails.length'
           :fixed-header="true"
@@ -299,15 +300,15 @@ export default {
         
         if (email.validation) {
           email.is_valid = email.validation.valid
-          if (email.validation.status == null) {
-            email.is_valid = 'unknown'
+          if (!email.validation.status) {
+           email.is_valid = 'unknown' 
           }
           
           delete email.validation
         }
         
         return email;
-      });
+      }).reverse();
 
       if (this.campaign.total > this.campaign.emails.length) {
         this.needUpgrade = true;
@@ -356,7 +357,7 @@ export default {
         return null
       }).filter((d) => d);
       
-      datasets.reverse();
+      datasets.reverse(); // email are reversed
       
       let item = {};
       datasets
@@ -395,11 +396,11 @@ export default {
 
 <style>
   .vgt-table th.line-numbers:first-child {
-    width: 35px!important;
+    width: 8%!important;
   }
   @media screen and (max-width: 960px) {
     .vgt-table th.line-numbers:first-child {
-      width: 45px!important;
+      width: 8%!important;
     }
   }
 </style>

@@ -6,14 +6,13 @@ from flask_jwt_extended import (
 	JWTManager, jwt_required, create_access_token,
 	get_jwt_identity
 )
-import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path='.env')
-import os
-from base64 import b64encode
-from services import Api
+from services import ApiService
 
 userRepository = UserRepository()
+
+# Crud API Token
 
 @routes.route('/api/token', methods=['GET'])
 @jwt_required
@@ -22,13 +21,10 @@ def get_api_key():
 	if user == False:
 		return jsonify({"error": "user doesn't exist"})
 
-	if not user['api_key']:
+	if not 'api_key' in user:
 		return jsonify({"error": "No API Key"})
 
-	api = Api()
-	apiKey = api.createApiKey(user)
-	userRepository.update(user['id'], {'api_key': str(apiKey)})
-	return jsonify({'apiKey': apiKey})
+	return jsonify({'apiKey': user['api_key']})
 
 
 @routes.route('/api/token', methods=['POST'])
@@ -38,8 +34,8 @@ def create_api_key():
 	if user == False:
 		return jsonify({"error": "user doesn't exist"})
 
-	if not user['api_key']:
-		api = Api()
+	if not 'api_key' in user:
+		api = ApiService()
 		apiKey = api.createApiKey(user)
 		userRepository.update(user['id'], {'api_key': str(apiKey)})
 		return jsonify({'apiKey': apiKey})
@@ -54,11 +50,25 @@ def update_api_key():
 	if user == False:
 		return jsonify({"error": "user doesn't exist"})
 
-	if not user['api_key']:
+	if not 'api_key' in user:
 		return jsonify({"error": "no api key"})
 
-	api = Api()
+	api = ApiService()
 	apiKey = api.createApiKey(user)
 	userRepository.update(user['id'], {'api_key': str(apiKey)})
 
 	return jsonify({'apiKey': apiKey})
+
+
+
+@routes.route('/api/test', methods=['GET'])
+def test_api():
+	if not request.headers.get('api_key'):
+		return jsonify({'error': 'Header Api_key is not defined'})
+
+	isApiKeyExist = userRepository.isApiKeyExist(request.headers.get('api_key'))
+	
+	if not isApiKeyExist:
+		return jsonify({'error': 'This api key does not exist'})
+
+	return jsonify({'staus': True})

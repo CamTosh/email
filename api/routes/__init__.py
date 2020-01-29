@@ -8,6 +8,7 @@ def onValidationError(e):
     return "There was a validation error: " + str(e)
 
 from .pager import *
+from .api import *
 from .users import *
 from .campaigns import *
 from .payements import *

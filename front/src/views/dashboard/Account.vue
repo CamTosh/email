@@ -55,7 +55,8 @@
     <Error class='mt-4' v-if='error && billingError' :message='error' />
     <Info v-if='upgrade && info' :message='info' />
     <!-- Pricing -->
-    <div class="w-3/4 flex items-center mt-8 justify-center">
+    <div class="w-3/4 flex flex-col items-center mt-8 justify-center">
+    
       <div class="w-full bg-white pt-4 rounded shadow">
         <div class="w-full border-b border-gray-200">
           <div class="w-full inline-flex justify-between px-3 mb-2 font-medium text-gray-600">
@@ -63,6 +64,17 @@
           </div>
         </div>
 
+        <div class="w-full inline-flex text-center justify-center">
+          <div class="w-1/2 inline-flex items-center bg-white text-gray-800 rounded-full p-2 m-2 shadow text-sm">
+            <span class="inline-flex bg-green-600 text-white rounded-full h-6 px-3 justify-center items-center">Need More?</span>
+            <span class="inline-flex px-2">
+              Contact us: 
+               <span class="ml-2 font-bold select-all">contact@email-landing.page</span>
+           </span>
+          </div>
+        </div>
+
+      
         <div class="w-full inline-flex text-center justify-center">
           <div class="w-1/2 mt-2 text-center">
             <div class="inline-flex p-2 w-full px-3 py-2 text-sm border rounded shadow items-center text-gray-700 rounded-lg w-full justify-around p-2">
@@ -86,37 +98,54 @@
 
         <div class="w-full py-3 inline-flex md:justify-center items-center lg:justify-around flex-col md:flex-row lg:flex-row px-2">
           <div
-            class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow-md p-6"
+            class="w-4/5 md:w-2/5 lg:w-2/5 mt-2 rounded-lg shadow p-6 inline-block"
+            style="height: 400px;"
             v-for='plan in plans.filter((p) => p.period === selectedPeriod)'
             :class='{"shadow-xl": selectedPlan == plan.id}'
           >
-            <div class="w-full inline-flex items-center justify-center lg:justify-around flex-col md:flex-row lg:flex-row">
-              <div class="w-full text-center mt-2 lg:mt-0 lg:text-left lg:left-0">
-                <span class="bg-gray-600 text-gray-100 rounded-full h-6 px-3 py-1 capitalize">{{ plan.id }}</span>
-              </div>
-              <div
-                class="w-full text-center mt-2 lg:mt-0 lg:right-0 lg:text-right"
-                v-if='storePlan == plan.id && plan.period == period'
-              >
-                <span class="bg-gray-800 text-white rounded-full h-6 px-3 py-1">Current Plan</span> 
-              </div>
-            </div>
-            <h2 class="text-4xl text-gray-900">
-              {{ plan.price }} € 
-              <span v-if='plan.period === "monthly"' class="text-lg text-gray-600">/month</span>
-              <span v-else class="text-lg text-gray-600">/year</span>
-            </h2>
-            <div class="text-gray-600">{{ plan.description }}</div>
-            <div class="inline-flex flex-col mt-2">
-              <div class="my-1 inline-flex flex-row" v-for='feature in plan.features'>
-                 <div class="font-bold pt-1 mr-2 text-green-600">
-                  <svg class="w-4 h-4 align-middle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <div class="w-full" style="height: 90%">
+              <div class="w-full inline-flex items-center justify-center lg:justify-around flex-col md:flex-row lg:flex-row">
+                <div class="w-full text-center mt-2 lg:mt-0 lg:text-left lg:left-0">
+                  <span class="bg-gray-600 text-gray-100 rounded-full h-6 px-3 py-1 capitalize">{{ plan.id }}</span>
                 </div>
-                {{ feature }}
+                <div
+                  class="w-full text-center mt-2 lg:mt-0 lg:right-0 lg:text-right"
+                  v-if='storePlan == plan.id && plan.period == period'
+                >
+                  <span class="bg-gray-800 text-white rounded-full h-6 px-3 py-1">Current Plan</span> 
+                </div>
+                <div
+                  class="w-full text-center mt-2 lg:mt-0 lg:right-0 lg:text-right"
+                  v-else-if='selectedPlan == plan.id'
+                >
+                  
+                  <span class="bg-gray-800 text-white rounded-full h-6 px-3 py-1">Selected Plan</span> 
+                </div>
+              </div>
+              <h2 class="text-4xl text-gray-900">
+                {{ plan.price }} € 
+                <span v-if='plan.period === "monthly"' class="text-lg text-gray-600">/month</span>
+                <span v-else class="text-lg text-gray-600">/year</span>
+              </h2>
+              <div class="text-gray-600">{{ plan.description }}</div>
+              <div class="inline-flex flex-col mt-2">
+                <div class="my-1 inline-flex flex-row" v-for='(feature, key) in plan.features'>
+                   <div v-if='plan.id=="startup" && key == 0' class="font-bold pt-1 mr-2 text-blue-600">
+                    <svg height='18' width='18' fill="none" stroke="currentColor" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" x="0px" y="0px" viewBox="0 0 100 100"><g transform="translate(0,-952.36218)"><path style="opacity:1;fill:#3182ce;fill-opacity:1;stroke-width:3;" d="m 36.821482,955.37477 c -0.235991,0.0109 -0.469963,0.0641 -0.6875,0.15625 l -35,16 c -1.12509524,0.51218 -1.39272561,2.15004 -0.68749995,3.125 L 11.321482,987.37477 0.44648205,1000.0623 c -0.6544461,0.9192 -0.43759529,2.6128 0.68749995,3.125 l 10.84375,4.9688 0,23.2187 c 0.0058,0.7633 0.490041,1.5024 1.1875,1.8125 l 35.96875,16 c 0.509699,0.2266 1.115301,0.2266 1.625,0 l 36.03125,-16 c 0.697459,-0.3101 1.181707,-1.0492 1.1875,-1.8125 l 0,-23.2187 10.84375,-4.9688 c 1.125095,-0.5122 1.493758,-2.1879 0.6875,-3.125 l -10.875,-12.68753 10.875,-12.71875 c 0.806258,-0.93708 0.437595,-2.61282 -0.6875,-3.125 l -35,-16 c -0.312709,-0.13621 -0.660646,-0.19057 -1,-0.15625 -0.494621,0.0359 -0.97284,0.26365 -1.3125,0.625 l -11.53125,12.40625 -11.53125,-12.40625 c -0.410745,-0.43796 -1.026638,-0.67484 -1.625,-0.625 z m -0.3125,4.40625 10.09375,10.875 -32.0625,14.28125 -9.3125,-10.84375 z m 26.9375,0 31.28125,14.3125 -9.3125,10.84375 -32.0625,-14.28125 z m -13.46875,13.78125 31.0625,13.8125 -31.0625,13.78133 -31.0625,-13.78133 z m -35.4375,16.21875 32.0625,14.28128 -10.09375,10.875 -31.28125,-14.3125 z m 70.875,0 9.3125,10.84378 -31.28125,14.3125 -10.09375,-10.875 z m -37.4375,18.68758 0,35.8124 -32,-14.2187 0,-20.0937 20.15625,9.2187 c 0.764319,0.3513 1.745297,0.1525 2.3125,-0.4687 z m 4,0 9.53125,10.25 c 0.567203,0.6212 1.548181,0.82 2.3125,0.4687 l 20.15625,-9.2187 0,20.0937 -32,14.1875 z"></path></g></svg>
+                  </div>
+                  <div v-else class="font-bold pt-1 mr-2 text-green-600">
+                    <svg class="w-4 h-4 align-middle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                  </div>
+                  <span v-if='plan.id=="startup" && key == 0' class="font-semibold">{{ feature }}</span>
+                  <span v-else>{{ feature }}</span>
+                </div>
               </div>
             </div>
-            <div class="w-full mt-2 justify-center">
-              <div @click='selectPlan(plan)' class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none" :class='{"bg-gray-800": selectedPlan == plan.id && selectedPeriod == plan.period}'>
+            <div class="w-full justify-center">
+              <div v-if='storePlan == plan.id && plan.period == period' class="bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-not-allowed outline-none">
+                Current Plan
+              </div>
+              <div v-else  @click='selectPlan(plan)' class="hover:bg-gray-800 bg-gray-700 text-white text-center text-sm py-1 px-2 border border-gray-700 rounded cursor-pointer outline-none">
                 Get started
               </div>
             </div>
@@ -124,7 +153,8 @@
          
         </div>
 
-        <div class="w-full py-3 inline-flex items-center justify-center flex-col md:flex-row lg:flex-row px-8">
+
+        <div class="w-full py-3 inline-flex items-center justify-center flex-col md:flex-row lg:flex-row">
           <card class='w-full shadow md:w-2/4 lg:w-2/4'
             :class='{ complete }'
             stripe='pk_test_RWLO2o36Z9Jc9BWJRpH12b8000RU1kHkUS'
@@ -139,6 +169,7 @@
           </div>
 
         </div>
+
       </div>
     </div>
 
@@ -150,7 +181,7 @@
           </div>
         </div>
         <div class="w-full py-4 inline-flex items-center md:justify-around lg:justify-around flex-col px-6">
-          <div class="w-full inline-flex justify-around border-l-2 border-gray-800 px-4 py-3 00 bg-gray-100 rouded h-24 mt-2" v-for='invoice in invoices'>
+          <div class="w-full inline-flex justify-around border-l-2 border-gray-800 px-4 py-3 00 bg-gray-100 rounded h-24 mt-2" v-for='invoice in invoices'>
             <div class="w-full inline-flex justify-around mr-4">
               <div class="w-1/2 h-full">
                 <div class="text-gray-900 font-medium text-lg my-2">
@@ -189,7 +220,6 @@ import axios from "axios";
 import moment from "moment";
 
 import { Card, createToken } from 'vue-stripe-elements-plus'
- 
  export default {
   components: {
     Header,
@@ -227,8 +257,8 @@ import { Card, createToken } from 'vue-stripe-elements-plus'
           features: [
             '5 Campaigns',
             '1 000 Emails Per Campaign',
-            'Email validation',
             'Statistics',
+            'Email validation',
             'Export'
           ]
         },
@@ -238,37 +268,37 @@ import { Card, createToken } from 'vue-stripe-elements-plus'
           description: 'Great for biggest project',
           period: 'monthly',
           features: [
+            'Indie features',
             '10 Campaigns',
             '10 000 Emails Per Campaign',
-            'Email validation',
-            'Statistics',
-            'Export'
+            'Several Call To Action per campaign',
+            'Browser analytics',
           ]
         },
         {
           id: 'indie',
           price: '50',
-          description: 'Great for building personal project',
+          description: 'Great for personal project',
           period: 'annualy',
           features: [
             '5 Campaigns',
             '1 000 Emails Per Campaign',
-            'Email validation',
             'Statistics',
+            'Email validation',
             'Export'
           ]
         },
         {
           id: 'startup',
           price: '100',
-          description: 'Great for building biggest project',
+          description: 'Great for biggest project',
           period: 'annualy',
           features: [
+            'Indie features',
             '10 Campaigns',
             '10 000 Emails Per Campaign',
-            'Email validation',
-            'Statistics',
-            'Export'
+            'Several Call To Action per campaign',
+            'Browser analytics',
           ]
         },
       ]
@@ -279,7 +309,7 @@ import { Card, createToken } from 'vue-stripe-elements-plus'
     this.email = this.$store.getters.user.mail
     this.firstName = this.$store.getters.user.firstName
     this.lastName = this.$store.getters.user.lastName
-    this.invoices = this.$store.getters.user.invoice
+    this.invoices = this.$store.getters.user.invoice.slice().reverse()
     this.period = this.$store.getters.user.plan.period
     this.selectedPeriod = this.period ? this.period : this.selectedPeriod;
 
