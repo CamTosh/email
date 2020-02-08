@@ -78,6 +78,21 @@ def charge():
 
 		customerId = customer.id
 		userRepository.update(user['id'], {'customer_id': customerId})
+
+		# SPONSOR
+		"""
+		If user as sponsor
+			findSponsor()
+			user.asUsedFreeMonth = true
+			stripe.charge(addFreeMonth=true)
+			update(sponsored, {asPaid: true paid_at: true})
+			sponsored_paid_user += 1
+			sponsored_user_needed = (free_month + 1 + ) * 10
+			
+			if sponsored_paid_user === sponsored_user_needed && creator.isPaidUser:
+				creator = find(sponsor.creator)
+				stripe.free_month(creator_customer_id, )
+		"""
 	else:
 		# Cancel current subscription
 		customerId = user['customer_id']
