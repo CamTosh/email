@@ -79,6 +79,7 @@
 		  background-color: #4a5568;
 		}
 	</style>
+	<script type="text/javascript" src="js/emailLandingPage.js"></script>
 </head>
 <body class="bg-creme">
 	
@@ -165,18 +166,18 @@
 		</div>
 		<!-- Pricing -->
 		<div class="mt-10 md:mt-20 lg:mt-20 w-full md:w-4/5 lg:w-4/5 inline-flex flex-wrap justify-center">
-			<div class="w-full text-center text-3xl text-gray-700 md:mb-6 lg:mb-6 text-gray-900 inline-flex flex-col select-none">
+			<div class="w-full text-center text-3xl text-gray-700 md:mb-6 lg:mb-6 text-gray-900 inline-flex flex-col">
 				Pricing
 				<div class="flex items-center justify-center w-full my-4 md:mb-0 lg:mb-0">
 					<div class="mr-4 text-gray-700 text-base">Month</div>
-					<label for="tooglePricing" class="flex items-center cursor-pointer">
+					<label for="tooglePricing" class="flex items-center">
 						<div class="relative">
-							<input id="tooglePricing" type="checkbox" class="hidden" />
+							<input id="tooglePricing" onclick="changePrice()" type="checkbox" class="hidden" />
 							<div class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
 							<div class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
 						</div>
 					</label>
-					<div class="ml-4 -mr-20 text-gray-700 text-base">Year (save 20%)</div>
+					<div class="ml-4 text-gray-700 text-base">Year (save 20%)</div>
 					<!-- <div class="ml-4 text-gray-700 text-base">Year</div> -->
 				</div>
 			</div>
@@ -189,7 +190,7 @@
 			    </header>
 			    <div class="flex flex-col p-6 border-t border-gray-300 bg-gray-100">
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="bg-green-300 mr-3 p-1 rounded-full">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
 			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
@@ -197,7 +198,7 @@
 			        <p class="text-gray-800">1 Campaign</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="bg-green-400 mr-3 p-1 rounded-full">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
 			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
@@ -205,7 +206,7 @@
 			        <p class="text-gray-800">100 Emails</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="bg-green-500 mr-3 p-1 rounded-full">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
 			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
@@ -213,7 +214,7 @@
 			        <p class="text-gray-800">Statistics</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="bg-green-600 mr-3 p-1 rounded-full">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
 			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
@@ -231,15 +232,15 @@
 		  	<div class="w-3/4 md:w-1/4 lg:w-1/4 my-2 mx-2 bg-white shadow-xl rounded-lg overflow-hidden">
 			    <header class="text-center leading-tight py-10 pb-6 select-none">
 			      <!-- <h2 class="uppercase tracking-wide text-sm font-bold text-gray-700">Indie</h2> -->
-			      <div class="text-5xl text-gray-900 font-bold tracking-tight">
-			        <span>5</span>
+			      <div id='divIndie' class="text-5xl text-gray-900 font-bold tracking-tight">
+			        <span id="priceIndie">5</span>
 			        <span class="-ml-2 inline-block align-top pt-2 text-lg">€</span>
 			      </div>
 			      <p class="text-gray-500">indie</p>
 			    </header>
 			    <div class="flex flex-col p-6 border-t border-gray-300 bg-gray-100">
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="bg-blue-300 mr-3 p-1 rounded-full">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
 			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
@@ -247,7 +248,7 @@
 			        <p class="text-gray-800">Free features included</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="bg-blue-400 mr-3 p-1 rounded-full">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
 			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
@@ -263,7 +264,7 @@
 			        <p class="text-gray-800">1 000 emails /Campaign</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="bg-blue-600 mr-3 p-1 rounded-full">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
 			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
@@ -280,40 +281,40 @@
 			<div class="w-3/4 md:w-1/4 lg:w-1/4 my-2 mx-2 bg-white shadow-xl rounded-lg overflow-hidden">
 			    <header class="text-center leading-tight py-10 pb-6 select-none">
 			      <!-- <h2 class="uppercase tracking-wide text-sm font-bold text-gray-700">Private Instruction</h2> -->
-			      <div class="text-5xl text-gray-900 font-bold tracking-tight">
-			        <span>10</span>
+			      <div id='divStartup' class="text-5xl text-gray-900 font-bold tracking-tight">
+			        <span id="priceStartup">10</span>
 			        <span class="-ml-2 inline-block align-top pt-2 text-lg">€</span>
 			      </div>
 			      <p class="text-gray-500">startup</p>
 			    </header>
 			    <div class="flex flex-col p-6 border-t border-gray-300 bg-gray-100">
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="border-2 border-gray-500 mr-3 p-1 rounded-full">
-			          <svg class="h-3 w-3 text-gray-500 fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
+			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
 			        </div>
 			        <p class="text-gray-800">Indie features included</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="border-2 border-gray-600 mr-3 p-1 rounded-full">
-			          <svg class="h-3 w-3 text-gray-600 fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
+			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
 			        </div>
 			        <p class="text-gray-800">10 Campaigns</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="border-2 border-gray-700 mr-3 p-1 rounded-full">
-			          <svg class="h-3 w-3 text-gray-700 fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
+			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
 			        </div>
 			        <p class="text-gray-800">10 000 emails /Campaign</p>
 			      </div>
 			      <div class="flex-1 inline-flex items-center mb-3">
-			        <div class="border-2 border-gray-800 mr-3 p-1 rounded-full">
-			          <svg class="h-3 w-3 text-gray-800 fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+			        <div class="bg-blue-500 mr-3 p-1 rounded-full">
+			          <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			            <polygon points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
 			          </svg>
 			        </div>
@@ -332,7 +333,7 @@
 		<div class="w-4/5 md:w-2/4 lg:w-2/4 flex flex-col my-8">
 				<div class="text-xl text-gray-800 ml-2 mb-2">Need More?</div>
 				<div class="w-full md:w-3/4 lg:w-3/4 text-gray-700 border-l-2 border-gray-800 pl-2 mb-4">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua.
+					If our subscriptions are not enough for you, or if you have special needs, leave us your email address so that we can contact you.
 				</div>
 				<div class="w-full">
 					<input
@@ -342,8 +343,8 @@
 					 type="text"
 					 data-campaign="5e0e06ceacb6f8791b402df9"
 	        >
-	        <button class="rounded text-center text-gray-100 bg-gray-700 px-3 py-2 outline-none cursor-pointer select-none ml-2">
-						Sign Up
+	        	<button class="rounded text-center text-gray-100 bg-gray-700 px-3 py-2 outline-none cursor-pointer select-none ml-2">
+					Sign Up
 					</button>
 				</div>
 		</div>

@@ -59,4 +59,40 @@ const emailLandingPage = (callback, error) => {
 			console.log('bad email')
 		}
 	})
-}
+};
+
+const prices = {
+	Indie: {
+		month: 5,
+		year: 50,
+	},
+	Startup: {
+		month: 10,
+		year: 100,
+	},
+};
+
+const changePriceOfEl = (type) => {
+	const el = document.getElementById(`price${type}`);
+	const div = document.getElementById(`div${type}`);
+	const price = prices[type];
+	
+	// Month to Year
+	if (parseInt(el.innerText) === price.month) {
+		el.innerText = price.year;
+		div.classList.add('ml-2')
+		return;
+	}
+	
+	// Year to Month
+	if (parseInt(el.innerText) === price.year) {
+		el.innerText = price.month;
+		div.classList.remove('ml-2')
+		return;
+	}
+};
+
+const changePrice = () => {
+	changePriceOfEl('Indie');
+	changePriceOfEl('Startup');
+};
